@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "magic-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@21st-dev/magic@latest"
+      ]
+    },
+     "react-mcp": {
+      "command": "node",
+      "args": [
+        "C:/Users/kalip/OneDrive/Desktop/react-mcp/index.js"
+      ]
+    }
+  }
+}
