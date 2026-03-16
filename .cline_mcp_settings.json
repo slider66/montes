@@ -7,11 +7,15 @@
         "@21st-dev/magic@latest"
       ]
     },
-     "react-mcp": {
-      "command": "node",
+    "nano-banana": {
+      "command": "npx",
       "args": [
-        "C:/Users/kalip/OneDrive/Desktop/react-mcp/index.js"
-      ]
+        "-y",
+        "@nanana-ai/mcp-server-nano-banana"
+      ],
+      "env": {
+        "NANANA_API_TOKEN": ""
+      }
     }
   }
 }

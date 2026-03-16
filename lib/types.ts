@@ -39,27 +39,43 @@ export interface CrearReservaInput {
   sabor: string
   cantidad: number
   notas?: string
+  cupon?: string       // desbloquea reservas más allá de los 7 días estándar
 }
 
 export interface CrearReservaResponse {
   ok: true
   reserva: Reserva
-  stockRestante: number
+  stockRestante: number  // tortillas totales restantes ese día
 }
 
 export interface ErrorResponse {
   ok: false
   error: string
-  code: 'SIN_STOCK' | 'FUERA_HORARIO' | 'FECHA_INVALIDA' | 'VALIDACION' | 'INTERNO'
+  code:
+    | 'SIN_STOCK'
+    | 'FUERA_HORARIO'
+    | 'FECHA_INVALIDA'
+    | 'VALIDACION'
+    | 'CUPON_INVALIDO'
+    | 'INTERNO'
 }
 
 // ─── Stock ────────────────────────────────────────────────────────────────────
 
-export interface StockPorSabor {
-  sabor: string
+export interface StockDia {
   fecha: string
-  disponible: number
-  total: number
+  disponible: number   // tortillas restantes ese día (máx 8)
+  total: number        // siempre 8
+  completo: boolean    // true si disponible === 0
+}
+
+// ─── Cupones ──────────────────────────────────────────────────────────────────
+
+export interface Cupon {
+  codigo: string
+  diasExtra: number    // días adicionales que desbloquea (ej: 7 → hasta 14 días)
+  activo: boolean
+  descripcion?: string
 }
 
 // ─── Edge Config ──────────────────────────────────────────────────────────────
@@ -72,7 +88,8 @@ export interface ConfigHorario {
 
 export interface AppConfig {
   horario: ConfigHorario
-  stockDiarioPorSabor: number
-  diasReservaAntelacion: number
+  stockDiario: number              // 8 tortillas totales por día
+  diasReservaVentana: number       // 7 días estándar
+  diasReservaCupon: number         // días extra con cupón
   sabores: Sabor[]
 }

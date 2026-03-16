@@ -10,10 +10,11 @@ export async function POST(request: NextRequest) {
 
     if (!resultado.ok) {
       const statusMap = {
-        FUERA_HORARIO: 423,   // Locked
-        SIN_STOCK: 409,       // Conflict
-        FECHA_INVALIDA: 422,  // Unprocessable Entity
-        VALIDACION: 400,      // Bad Request
+        FUERA_HORARIO: 423,
+        SIN_STOCK: 409,
+        FECHA_INVALIDA: 422,
+        VALIDACION: 400,
+        CUPON_INVALIDO: 403,
         INTERNO: 500,
       }
       const status = statusMap[resultado.code] ?? 400

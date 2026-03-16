@@ -1,82 +1,75 @@
-import { kv } from '@vercel/kv'
+import type { Reserva, Cupon } from './types'
+
+export const MAX_TORTILLAS_DIA = 8
 
 // ─── Claves KV ────────────────────────────────────────────────────────────────
 
 export const KEYS = {
-  stock: (fecha: string, sabor: string) => `stock:${fecha}:${sabor}`,
+  stockDia: (fecha: string) => `stock:dia:${fecha}`,
   reserva: (id: string) => `reserva:${id}`,
   reservasPorFecha: (fecha: string) => `reservas:fecha:${fecha}`,
   reservasPorCliente: (email: string) => `reservas:cliente:${email}`,
+  cupon: (codigo: string) => `cupon:${codigo.toUpperCase()}`,
 }
 
-// ─── Stock ────────────────────────────────────────────────────────────────────
+// ─── Cliente KV (lazy, evita crash si no hay credenciales) ────────────────────
 
-/**
- * Inicializa el stock de un sabor para una fecha si no existe.
- * Se llama al crear la primera reserva del día o al abrir el día.
- */
-export async function inicializarStock(
-  fecha: string,
-  sabor: string,
-  stockTotal: number
-): Promise<void> {
-  const key = KEYS.stock(fecha, sabor)
-  // NX = solo si no existe
-  await kv.set(key, stockTotal, { nx: true, ex: 60 * 60 * 24 * 16 }) // expira en 16 días
-}
-
-/**
- * Obtiene el stock actual de un sabor para una fecha.
- */
-export async function getStock(fecha: string, sabor: string): Promise<number> {
-  const key = KEYS.stock(fecha, sabor)
-  const valor = await kv.get<number>(key)
-  return valor ?? -1 // -1 indica que no ha sido inicializado
-}
-
-/**
- * Obtiene el stock de todos los sabores para una fecha en paralelo.
- */
-export async function getStockTodos(
-  fecha: string,
-  sabores: string[]
-): Promise<Record<string, number>> {
-  const pipeline = kv.pipeline()
-  for (const sabor of sabores) {
-    pipeline.get(KEYS.stock(fecha, sabor))
+function getKV() {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    return null
   }
-  const resultados = await pipeline.exec()
+  // Importación dinámica síncrona: el módulo ya está resuelto en Node.js
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  return require('@vercel/kv').kv as typeof import('@vercel/kv').kv
+}
+
+// ─── Stock diario ─────────────────────────────────────────────────────────────
+
+async function inicializarStockDia(fecha: string): Promise<void> {
+  const kv = getKV()
+  if (!kv) return
+  await kv.set(KEYS.stockDia(fecha), MAX_TORTILLAS_DIA, {
+    nx: true,
+    ex: 60 * 60 * 24 * 9,
+  })
+}
+
+export async function getStockDia(fecha: string): Promise<number> {
+  const kv = getKV()
+  if (!kv) return MAX_TORTILLAS_DIA
+  const valor = await kv.get<number>(KEYS.stockDia(fecha))
+  return valor ?? MAX_TORTILLAS_DIA
+}
+
+export async function getStockSemana(
+  fechas: string[]
+): Promise<Record<string, number>> {
+  const kv = getKV()
+  if (!kv) {
+    return Object.fromEntries(fechas.map((f) => [f, MAX_TORTILLAS_DIA]))
+  }
+
+  const valores = await Promise.all(
+    fechas.map((fecha) => kv.get<number>(KEYS.stockDia(fecha)))
+  )
 
   return Object.fromEntries(
-    sabores.map((sabor, i) => [sabor, (resultados[i] as number) ?? 0])
+    fechas.map((fecha, i) => [fecha, valores[i] ?? MAX_TORTILLAS_DIA])
   )
 }
 
-// ─── Reserva atómica (decremento + rollback) ──────────────────────────────────
-
-/**
- * Intenta decrementar el stock de forma atómica.
- * Si el resultado sería negativo, hace rollback y devuelve false.
- *
- * @returns El stock restante tras la operación, o null si no hay stock.
- */
-export async function decrementarStock(
+export async function decrementarStockDia(
   fecha: string,
-  sabor: string,
-  cantidad: number,
-  stockTotal: number
+  cantidad: number
 ): Promise<number | null> {
-  const key = KEYS.stock(fecha, sabor)
+  const kv = getKV()
+  if (!kv) return MAX_TORTILLAS_DIA - cantidad // modo dev: siempre hay stock
 
-  // Asegura que el stock existe antes de decrementar
-  await inicializarStock(fecha, sabor, stockTotal)
-
-  // Decremento atómico con Redis DECRBY
-  const nuevoStock = await kv.decrby(key, cantidad)
+  await inicializarStockDia(fecha)
+  const nuevoStock = await kv.decrby(KEYS.stockDia(fecha), cantidad)
 
   if (nuevoStock < 0) {
-    // Rollback: restauramos las unidades que acabamos de restar
-    await kv.incrby(key, cantidad)
+    await kv.incrby(KEYS.stockDia(fecha), cantidad)
     return null
   }
 
@@ -85,49 +78,53 @@ export async function decrementarStock(
 
 // ─── CRUD Reservas ────────────────────────────────────────────────────────────
 
-import type { Reserva } from './types'
-
 export async function guardarReserva(reserva: Reserva): Promise<void> {
-  const pipeline = kv.pipeline()
-
-  pipeline.set(KEYS.reserva(reserva.id), reserva, {
-    ex: 60 * 60 * 24 * 30, // expira en 30 días
-  })
-  pipeline.sadd(KEYS.reservasPorFecha(reserva.fecha), reserva.id)
-  pipeline.sadd(KEYS.reservasPorCliente(reserva.cliente.email), reserva.id)
-
-  await pipeline.exec()
+  const kv = getKV()
+  if (!kv) return // en dev solo log
+  await Promise.all([
+    kv.set(KEYS.reserva(reserva.id), reserva, { ex: 60 * 60 * 24 * 30 }),
+    kv.sadd(KEYS.reservasPorFecha(reserva.fecha), reserva.id),
+    kv.sadd(KEYS.reservasPorCliente(reserva.cliente.email), reserva.id),
+  ])
 }
 
 export async function getReserva(id: string): Promise<Reserva | null> {
+  const kv = getKV()
+  if (!kv) return null
   return kv.get<Reserva>(KEYS.reserva(id))
 }
 
 export async function getReservasPorFecha(fecha: string): Promise<Reserva[]> {
+  const kv = getKV()
+  if (!kv) return []
   const ids = await kv.smembers<string[]>(KEYS.reservasPorFecha(fecha))
   if (!ids.length) return []
-
-  const pipeline = kv.pipeline()
-  for (const id of ids) {
-    pipeline.get(KEYS.reserva(id))
-  }
-
-  const resultados = await pipeline.exec()
+  const resultados = await Promise.all(ids.map((id) => kv.get<Reserva>(KEYS.reserva(id))))
   return resultados.filter(Boolean) as Reserva[]
 }
 
-export async function cancelarReserva(
-  id: string,
-  stockTotal: number
-): Promise<boolean> {
+export async function cancelarReserva(id: string): Promise<boolean> {
+  const kv = getKV()
+  if (!kv) return false
   const reserva = await getReserva(id)
   if (!reserva || reserva.estado === 'cancelada') return false
-
-  // Devolver stock
-  await kv.incrby(KEYS.stock(reserva.fecha, reserva.sabor), reserva.cantidad)
-
-  // Actualizar estado
-  await kv.set(KEYS.reserva(id), { ...reserva, estado: 'cancelada' })
-
+  await Promise.all([
+    kv.incrby(KEYS.stockDia(reserva.fecha), reserva.cantidad),
+    kv.set(KEYS.reserva(id), { ...reserva, estado: 'cancelada' }),
+  ])
   return true
+}
+
+// ─── Cupones ──────────────────────────────────────────────────────────────────
+
+export async function getCupon(codigo: string): Promise<Cupon | null> {
+  const kv = getKV()
+  if (!kv) return null
+  return kv.get<Cupon>(KEYS.cupon(codigo))
+}
+
+export async function setCupon(cupon: Cupon): Promise<void> {
+  const kv = getKV()
+  if (!kv) return
+  await kv.set(KEYS.cupon(cupon.codigo), cupon)
 }

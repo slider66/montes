@@ -1,59 +1,70 @@
-import { getSabores, getStockDiario } from '@/lib/edge-config'
-import { getStockTodos } from '@/lib/kv'
+import { getSabores } from '@/lib/edge-config'
+import { getStockDia, getStockSemana, MAX_TORTILLAS_DIA } from '@/lib/kv'
 import { getDiasDisponibles, getEstadoHorario } from '@/lib/horario'
-import { TortillaCard } from '@/components/ui/TortillaCard'
-import { HorarioAlert } from '@/components/ui/HorarioAlert'
+import { Hero3D }          from '@/components/ui/Hero3D'
+import { MarqueeTicker }   from '@/components/ui/MarqueeTicker'
+import { CalendarioSemana } from '@/components/ui/CalendarioSemana'
+import { BentoCatalogo }   from '@/components/ui/BentoCatalogo'
 
-// Revalidar cada 30 segundos
 export const revalidate = 30
 
-export default async function HomePage() {
-  const [sabores, stockDiario] = await Promise.all([getSabores(), getStockDiario()])
-  const proximaFecha = getDiasDisponibles(1)[0]
-  const stockHoy = await getStockTodos(proximaFecha, sabores.map((s) => s.id))
+interface Props {
+  searchParams: Promise<{ fecha?: string }>
+}
+
+const SABORES_DEMO = [
+  { id: 'clasica',   nombre: 'La Clásica',         descripcion: 'Huevo, patata y cebolla caramelizada al punto justo. La receta de siempre.',  emoji: '🥚', precio: 8.50,  activo: true },
+  { id: 'jamon',     nombre: 'Jamón Ibérico',       descripcion: 'Con jamón ibérico de bellota loncheado en el momento.',                        emoji: '🐖', precio: 11.00, activo: true },
+  { id: 'atun',      nombre: 'Atún y Pimiento',     descripcion: 'Atún en aceite de oliva con pimientos asados de la huerta.',                   emoji: '🐟', precio: 9.50,  activo: true },
+  { id: 'bacalao',   nombre: 'Bacalao',             descripcion: 'Bacalao desalado con pisto y aceite de oliva virgen extra.',                    emoji: '🧆', precio: 10.50, activo: true },
+  { id: 'espinacas', nombre: 'Espinacas',           descripcion: 'Espinacas frescas salteadas con ajo negro y queso de rulo.',                   emoji: '🌿', precio: 9.00,  activo: true },
+  { id: 'chorizo',   nombre: 'Chorizo y Queso',     descripcion: 'Chorizo ibérico y queso manchego curado de la Sierra.',                        emoji: '🧀', precio: 10.00, activo: true },
+  { id: 'setas',     nombre: 'Setas de Temporada',  descripcion: 'Mezcla de setas silvestres salteadas con trufa negra y romero.',               emoji: '🍄', precio: 10.50, activo: true },
+  { id: 'vegetal',   nombre: 'Vegetal',             descripcion: 'Pisto de verduras de temporada, tomate cherry y hierbas aromáticas.',           emoji: '🥗', precio: 8.50,  activo: true },
+]
+
+export default async function HomePage({ searchParams }: Props) {
+  const { fecha: fechaParam } = await searchParams
+  const diasDisponibles = getDiasDisponibles(false)
   const estado = getEstadoHorario()
 
+  const fechaSeleccionada =
+    fechaParam && diasDisponibles.includes(fechaParam)
+      ? fechaParam
+      : diasDisponibles[0]
+
+  const [sabores, stockSemana, stockDia] = await Promise.all([
+    getSabores(),
+    getStockSemana(diasDisponibles),
+    getStockDia(fechaSeleccionada),
+  ])
+
+  const saboresFinales   = sabores.length > 0 ? sabores : SABORES_DEMO
+  const stockFinal       = sabores.length > 0 ? stockDia : MAX_TORTILLAS_DIA
+  const stockSemanaFinal = sabores.length > 0
+    ? stockSemana
+    : Object.fromEntries(diasDisponibles.map((d) => [d, MAX_TORTILLAS_DIA]))
+
   return (
-    <main className="min-h-screen">
-      {/* Hero */}
-      <section className="bg-amber-600 text-white px-4 py-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Montes</h1>
-        <p className="text-amber-100 text-lg">
-          La mejor tortilla de San Agustín de Guadalix
-        </p>
-        <p className="mt-2 text-amber-200 text-sm">
-          Lunes a Domingo · 07:00 – 14:00
-        </p>
-      </section>
+    <main>
+      {/* ── Primer viewport: Hero 3D ──────────────────────────────────────── */}
+      <Hero3D estado={estado} />
 
-      {/* Alerta de horario */}
-      <HorarioAlert estado={estado} />
-
-      {/* Catálogo */}
-      <section className="max-w-2xl mx-auto px-4 py-8">
-        <h2 className="text-xl font-semibold mb-6 text-stone-700">
-          Tortillas disponibles · {proximaFecha}
-        </h2>
-
-        <div className="grid gap-4">
-          {sabores.map((sabor) => {
-            const disponible =
-              stockHoy[sabor.id] === -1
-                ? stockDiario
-                : (stockHoy[sabor.id] ?? stockDiario)
-
-            return (
-              <TortillaCard
-                key={sabor.id}
-                sabor={sabor}
-                disponible={disponible}
-                total={stockDiario}
-                abierto={estado.abierto}
-              />
-            )
-          })}
-        </div>
-      </section>
+      {/* ── Contenido que scrollea sobre el canvas fijo ───────────────────── */}
+      <div className="relative z-10" style={{ background: '#050200' }}>
+        <MarqueeTicker />
+        <CalendarioSemana
+          dias={diasDisponibles}
+          stockSemana={stockSemanaFinal}
+          fechaSeleccionada={fechaSeleccionada}
+        />
+        <BentoCatalogo
+          sabores={saboresFinales}
+          stockDia={stockFinal}
+          fecha={fechaSeleccionada}
+          abierto={estado.abierto}
+        />
+      </div>
     </main>
   )
 }

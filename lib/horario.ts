@@ -1,19 +1,19 @@
-import { toZonedTime, fromZonedTime } from 'date-fns-tz'
-import { addDays, format, isWeekend, parseISO, isBefore, isAfter } from 'date-fns'
+import { toZonedTime } from 'date-fns-tz'
+import { addDays, format } from 'date-fns'
 
 const ZONA = 'Europe/Madrid'
 const HORA_APERTURA = 7   // 07:00
 const HORA_CIERRE = 14    // 14:00
+
+export const VENTANA_ESTANDAR = 7   // días sin cupón
+export const VENTANA_CUPON = 14     // días totales con cupón (7 extra)
 
 /**
  * Devuelve si el negocio está abierto AHORA para aceptar nuevas reservas.
  */
 export function estaAbierto(): boolean {
   const ahora = toZonedTime(new Date(), ZONA)
-  const hora = ahora.getHours()
-  const minutos = ahora.getMinutes()
-  const horaDecimal = hora + minutos / 60
-
+  const horaDecimal = ahora.getHours() + ahora.getMinutes() / 60
   return horaDecimal >= HORA_APERTURA && horaDecimal < HORA_CIERRE
 }
 
@@ -40,11 +40,11 @@ export function getEstadoHorario(): {
     return {
       abierto: false,
       mensaje: `Abrimos hoy a las 07:00`,
-      proximaApertura: format(ahora, "yyyy-MM-dd") + 'T07:00:00',
+      proximaApertura: format(ahora, 'yyyy-MM-dd') + 'T07:00:00',
     }
   }
 
-  // Después de las 14:00 → siguiente día laborable
+  // Después de las 14:00 → siguiente día
   const manana = addDays(ahora, 1)
   return {
     abierto: false,
@@ -54,34 +54,39 @@ export function getEstadoHorario(): {
 }
 
 /**
- * Genera los próximos N días hábiles disponibles para reservar.
- * (Montes abre L-D, excluye solo días marcados en Edge Config como festivos)
+ * Genera los días disponibles para reservar.
+ * - Sin cupón: 7 días vista.
+ * - Con cupón válido: hasta VENTANA_CUPON días vista.
  */
-export function getDiasDisponibles(diasAntelacion = 14): string[] {
+export function getDiasDisponibles(conCupon = false): string[] {
   const dias: string[] = []
-  const hoy = toZonedTime(new Date(), ZONA)
+  const ahora = toZonedTime(new Date(), ZONA)
   // Si ya pasaron las 14:00, el primer día disponible es mañana
-  const esHoyDisponible = estaAbierto()
-  const inicio = esHoyDisponible ? hoy : addDays(hoy, 1)
+  const inicio = estaAbierto() ? ahora : addDays(ahora, 1)
+  const ventana = conCupon ? VENTANA_CUPON : VENTANA_ESTANDAR
 
-  for (let i = 0; i < diasAntelacion; i++) {
-    const dia = addDays(inicio, i)
-    dias.push(format(dia, 'yyyy-MM-dd'))
+  for (let i = 0; i < ventana; i++) {
+    dias.push(format(addDays(inicio, i), 'yyyy-MM-dd'))
   }
 
   return dias
 }
 
 /**
- * Valida que una fecha dada sea válida para reservar.
+ * Valida que una fecha esté dentro de la ventana permitida.
+ * conCupon = true amplía la ventana.
  */
-export function esFechaValida(fecha: string): { valida: boolean; error?: string } {
-  const diasDisponibles = getDiasDisponibles(14)
+export function esFechaValida(
+  fecha: string,
+  conCupon = false
+): { valida: boolean; error?: string } {
+  const diasDisponibles = getDiasDisponibles(conCupon)
 
   if (!diasDisponibles.includes(fecha)) {
+    const limite = conCupon ? VENTANA_CUPON : VENTANA_ESTANDAR
     return {
       valida: false,
-      error: 'La fecha seleccionada no está disponible para reservas.',
+      error: `Solo se pueden reservar los próximos ${limite} días.`,
     }
   }
 

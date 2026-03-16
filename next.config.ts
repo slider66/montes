@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // Edge Config disponible en middleware y Route Handlers
-    instrumentationHook: true,
   },
 }
 

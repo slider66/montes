@@ -1,61 +1,62 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getStock, getStockTodos } from '@/lib/kv'
-import { getSabores, getStockDiario } from '@/lib/edge-config'
+import { getStockDia } from '@/lib/kv'
+import { MAX_TORTILLAS_DIA } from '@/lib/kv'
 import { getDiasDisponibles } from '@/lib/horario'
+import { getCupon } from '@/lib/kv'
 
 export const runtime = 'edge'
 
-// GET /api/stock/[sabor]?fecha=2026-03-20
-// GET /api/stock/todos?fecha=2026-03-20
+// GET /api/stock/[fecha]?cupon=XXXX
+// GET /api/stock/semana?cupon=XXXX  → stock de todos los días de la ventana
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ sabor: string }> }
 ) {
-  const { sabor } = await params
-  const { searchParams } = new URL(_request.url)
-  const fecha = searchParams.get('fecha') ?? getDiasDisponibles(1)[0]
+  const { sabor: segmento } = await params
+  const { searchParams } = new URL(request.url)
+  const codigoCupon = searchParams.get('cupon')
 
-  if (sabor === 'todos') {
-    const sabores = await getSabores()
-    const stockTotal = await getStockDiario()
-    const stockMap = await getStockTodos(fecha, sabores.map((s) => s.id))
-
-    // Inicializa a stockTotal los sabores sin valor en KV
-    const resultado = Object.fromEntries(
-      sabores.map((s) => [
-        s.id,
-        {
-          disponible: stockMap[s.id] === -1 ? stockTotal : (stockMap[s.id] ?? stockTotal),
-          total: stockTotal,
-        },
-      ])
-    )
-
-    return NextResponse.json(
-      { fecha, stock: resultado },
-      {
-        headers: {
-          // Revalidar cada 10 segundos en el Edge
-          'Cache-Control': 's-maxage=10, stale-while-revalidate=5',
-        },
-      }
-    )
+  // Validar cupón si se pasa
+  let conCupon = false
+  if (codigoCupon) {
+    const cupon = await getCupon(codigoCupon)
+    conCupon = !!(cupon?.activo)
   }
 
-  const stockTotal = await getStockDiario()
-  const disponible = await getStock(fecha, sabor)
+  const headers = {
+    'Cache-Control': 's-maxage=10, stale-while-revalidate=5',
+  }
+
+  // GET /api/stock/semana → devuelve el stock de toda la ventana disponible
+  if (segmento === 'semana') {
+    const fechas = getDiasDisponibles(conCupon)
+    const stockMap: Record<string, { disponible: number; total: number; completo: boolean }> = {}
+
+    await Promise.all(
+      fechas.map(async (fecha) => {
+        const disponible = await getStockDia(fecha)
+        stockMap[fecha] = {
+          disponible,
+          total: MAX_TORTILLAS_DIA,
+          completo: disponible === 0,
+        }
+      })
+    )
+
+    return NextResponse.json({ fechas, stock: stockMap }, { headers })
+  }
+
+  // GET /api/stock/[fecha] → stock de un día concreto
+  const fecha = segmento
+  const disponible = await getStockDia(fecha)
 
   return NextResponse.json(
     {
-      sabor,
       fecha,
-      disponible: disponible === -1 ? stockTotal : disponible,
-      total: stockTotal,
+      disponible,
+      total: MAX_TORTILLAS_DIA,
+      completo: disponible === 0,
     },
-    {
-      headers: {
-        'Cache-Control': 's-maxage=10, stale-while-revalidate=5',
-      },
-    }
+    { headers }
   )
 }

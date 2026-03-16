@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
-import { decrementarStock, guardarReserva } from './kv'
-import { getSabor, getStockDiario } from './edge-config'
+import { decrementarStockDia, guardarReserva, getCupon } from './kv'
+import { getSabor } from './edge-config'
 import { estaAbierto, esFechaValida } from './horario'
 import type {
   CrearReservaInput,
@@ -22,6 +22,7 @@ const ReservaSchema = z.object({
   sabor: z.string().min(1).max(50),
   cantidad: z.number().int().min(1).max(4),
   notas: z.string().max(300).optional(),
+  cupon: z.string().max(50).optional(),
 })
 
 // ─── Lógica Principal ─────────────────────────────────────────────────────────
@@ -50,8 +51,22 @@ export async function crearReserva(
 
   const data = parsed.data as CrearReservaInput
 
-  // 3. Validar fecha
-  const { valida, error: errorFecha } = esFechaValida(data.fecha)
+  // 3. Validar cupón (si se proporcionó)
+  let conCupon = false
+  if (data.cupon) {
+    const cupon = await getCupon(data.cupon)
+    if (!cupon || !cupon.activo) {
+      return {
+        ok: false,
+        error: 'El cupón introducido no es válido o ha expirado.',
+        code: 'CUPON_INVALIDO',
+      }
+    }
+    conCupon = true
+  }
+
+  // 4. Validar fecha dentro de la ventana permitida
+  const { valida, error: errorFecha } = esFechaValida(data.fecha, conCupon)
   if (!valida) {
     return {
       ok: false,
@@ -60,7 +75,7 @@ export async function crearReserva(
     }
   }
 
-  // 4. Validar que el sabor existe
+  // 5. Validar que el sabor existe
   const sabor = await getSabor(data.sabor)
   if (!sabor) {
     return {
@@ -70,24 +85,18 @@ export async function crearReserva(
     }
   }
 
-  // 5. Intentar decrementar stock de forma atómica
-  const stockTotal = await getStockDiario()
-  const stockRestante = await decrementarStock(
-    data.fecha,
-    data.sabor,
-    data.cantidad,
-    stockTotal
-  )
+  // 6. Decrementar el contador diario total de forma atómica (máx 8 tortillas/día)
+  const stockRestante = await decrementarStockDia(data.fecha, data.cantidad)
 
   if (stockRestante === null) {
     return {
       ok: false,
-      error: `Lo sentimos, no quedan unidades de "${sabor.nombre}" para esa fecha.`,
+      error: `Lo sentimos, no quedan tortillas disponibles para el ${data.fecha}. El cupo diario (8 unidades) está completo.`,
       code: 'SIN_STOCK',
     }
   }
 
-  // 6. Persistir la reserva
+  // 7. Persistir la reserva
   const reserva: Reserva = {
     id: `res_${nanoid(10)}`,
     cliente: data.cliente,
