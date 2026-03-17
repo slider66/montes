@@ -1,13 +1,15 @@
 export function MarqueeTicker() {
   const items = [
     '🥚 Tortilla Artesanal',
-    '✦ Stock Limitado',
-    '🫒 Aceite Virgen Extra',
+    '✦ 4,7★ en Google · 199 reseñas',
+    '📍 C. Postas, 2 · San Agustín del Guadalix',
     '✦ Recogida 07:00–14:00',
-    '🧅 Cebolla Caramelizada',
-    '✦ San Agustín de Guadalix',
+    '🧅 8 Sabores Únicos',
+    '✦ Comer aquí · Para llevar',
+    '🫒 Aceite Virgen Extra',
+    '✦ 1–10€ por persona',
     '🌿 Producto de Temporada',
-    '✦ 8 Sabores Únicos',
+    '✦ Cafetería Montes',
   ]
 
   const repeated = [...items, ...items]
@@ -16,8 +18,8 @@ export function MarqueeTicker() {
     <div
       className="relative w-full overflow-hidden py-3 border-y"
       style={{
-        borderColor: 'rgba(255,200,80,0.10)',
-        background: 'rgba(255,200,80,0.025)',
+        borderColor: 'rgba(196,120,50,0.14)',
+        background: 'rgba(196,120,50,0.04)',
       }}
     >
       <div className="ticker-track flex whitespace-nowrap gap-0">
@@ -25,7 +27,7 @@ export function MarqueeTicker() {
           <span
             key={i}
             className="inline-flex items-center gap-4 px-8 text-xs font-semibold uppercase tracking-widest shrink-0"
-            style={{ color: 'rgba(240,230,208,0.38)' }}
+            style={{ color: 'rgba(242,226,192,0.40)' }}
           >
             {item}
           </span>

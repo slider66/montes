@@ -5,6 +5,8 @@ import { Hero3D }          from '@/components/ui/Hero3D'
 import { MarqueeTicker }   from '@/components/ui/MarqueeTicker'
 import { CalendarioSemana } from '@/components/ui/CalendarioSemana'
 import { BentoCatalogo }   from '@/components/ui/BentoCatalogo'
+import { Footer }          from '@/components/ui/Footer'
+import { CartaSection }    from '@/components/ui/CartaSection'
 
 export const revalidate = 30
 
@@ -13,14 +15,66 @@ interface Props {
 }
 
 const SABORES_DEMO = [
-  { id: 'clasica',   nombre: 'La Clásica',         descripcion: 'Huevo, patata y cebolla caramelizada al punto justo. La receta de siempre.',  emoji: '🥚', precio: 8.50,  activo: true },
-  { id: 'jamon',     nombre: 'Jamón Ibérico',       descripcion: 'Con jamón ibérico de bellota loncheado en el momento.',                        emoji: '🐖', precio: 11.00, activo: true },
-  { id: 'atun',      nombre: 'Atún y Pimiento',     descripcion: 'Atún en aceite de oliva con pimientos asados de la huerta.',                   emoji: '🐟', precio: 9.50,  activo: true },
-  { id: 'bacalao',   nombre: 'Bacalao',             descripcion: 'Bacalao desalado con pisto y aceite de oliva virgen extra.',                    emoji: '🧆', precio: 10.50, activo: true },
-  { id: 'espinacas', nombre: 'Espinacas',           descripcion: 'Espinacas frescas salteadas con ajo negro y queso de rulo.',                   emoji: '🌿', precio: 9.00,  activo: true },
-  { id: 'chorizo',   nombre: 'Chorizo y Queso',     descripcion: 'Chorizo ibérico y queso manchego curado de la Sierra.',                        emoji: '🧀', precio: 10.00, activo: true },
-  { id: 'setas',     nombre: 'Setas de Temporada',  descripcion: 'Mezcla de setas silvestres salteadas con trufa negra y romero.',               emoji: '🍄', precio: 10.50, activo: true },
-  { id: 'vegetal',   nombre: 'Vegetal',             descripcion: 'Pisto de verduras de temporada, tomate cherry y hierbas aromáticas.',           emoji: '🥗', precio: 8.50,  activo: true },
+  {
+    id: 'clasica-con',
+    nombre: 'Clásica con Cebolla',
+    descripcion: 'La receta de siempre. Huevo, patata y cebolla pochada a fuego lento. Jugosa por dentro, dorada por fuera.',
+    emoji: '🥚',
+    precio: 8.00,
+    precioGrande: 14.50,
+    nota: '6 huevos · 12 huevos disponible',
+    activo: true,
+  },
+  {
+    id: 'clasica-sin',
+    nombre: 'Clásica sin Cebolla',
+    descripcion: 'La pureza del huevo y la patata. Para los que prefieren el sabor más directo y tradicional.',
+    emoji: '🍳',
+    precio: 8.00,
+    precioGrande: 14.50,
+    nota: '6 huevos · 12 huevos disponible',
+    activo: true,
+  },
+  {
+    id: 'jamon-queso',
+    nombre: 'Jamón York y Queso',
+    descripcion: 'Tortilla de patata rellena con jamón york y queso fundido en el centro. Un clásico que nunca falla.',
+    emoji: '🧀',
+    precio: 10.00,
+    precioGrande: 18.50,
+    nota: 'Rellena · 6 huevos · 12 huevos disponible',
+    activo: true,
+  },
+  {
+    id: 'chorizo',
+    nombre: 'Chorizo',
+    descripcion: 'Rellena de chorizo casero. Sabor intenso y tradicional en cada corte.',
+    emoji: '🌶️',
+    precio: 10.00,
+    precioGrande: 18.50,
+    nota: 'Rellena · 6 huevos · 12 huevos disponible',
+    activo: true,
+  },
+  {
+    id: 'morcilla',
+    nombre: 'Morcilla',
+    descripcion: 'Tortilla rellena de morcilla. Sabor profundo y contundente, ideal para los paladares más atrevidos.',
+    emoji: '🫙',
+    precio: 10.00,
+    precioGrande: 18.50,
+    nota: 'Rellena · 6 huevos · 12 huevos disponible',
+    activo: true,
+  },
+  {
+    id: 'atun',
+    nombre: 'Atún',
+    descripcion: 'Rellena de atún en aceite de oliva. Suave, jugosa y con todo el sabor del mar en cada bocado.',
+    emoji: '🐟',
+    precio: 10.00,
+    precioGrande: 18.50,
+    nota: 'Rellena · 6 huevos · 12 huevos disponible',
+    activo: true,
+  },
 ]
 
 export default async function HomePage({ searchParams }: Props) {
@@ -50,8 +104,8 @@ export default async function HomePage({ searchParams }: Props) {
       {/* ── Primer viewport: Hero 3D ──────────────────────────────────────── */}
       <Hero3D estado={estado} />
 
-      {/* ── Contenido que scrollea sobre el canvas fijo ───────────────────── */}
-      <div className="relative z-10" style={{ background: '#050200' }}>
+      {/* ── Contenido que scrollea ────────────────────────────────────────── */}
+      <div className="relative z-10" style={{ background: '#1A0E05' }}>
         <MarqueeTicker />
         <CalendarioSemana
           dias={diasDisponibles}
@@ -64,6 +118,8 @@ export default async function HomePage({ searchParams }: Props) {
           fecha={fechaSeleccionada}
           abierto={estado.abierto}
         />
+        <CartaSection />
+        <Footer />
       </div>
     </main>
   )

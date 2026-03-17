@@ -65,13 +65,13 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
         background: sinStock
           ? 'rgba(255,255,255,0.02)'
           : featured
-          ? 'linear-gradient(145deg, rgba(232,160,32,0.08), rgba(255,107,32,0.05))'
-          : 'rgba(255,200,80,0.04)',
+          ? 'linear-gradient(145deg, rgba(196,120,50,0.10), rgba(139,90,52,0.06))'
+          : 'rgba(196,120,50,0.05)',
         borderColor: sinStock
           ? 'rgba(255,255,255,0.05)'
           : featured
-          ? 'rgba(232,160,32,0.22)'
-          : 'rgba(255,200,80,0.10)',
+          ? 'rgba(196,120,50,0.28)'
+          : 'rgba(196,120,50,0.14)',
         backdropFilter: 'blur(14px)',
         opacity: sinStock ? 0.5 : 1,
       }}
@@ -81,7 +81,7 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
-            background: 'linear-gradient(105deg, transparent 35%, rgba(255,200,80,0.05) 50%, transparent 65%)',
+            background: 'linear-gradient(105deg, transparent 35%, rgba(196,120,50,0.07) 50%, transparent 65%)',
           }}
         />
       )}
@@ -90,7 +90,7 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
       {featured && !sinStock && (
         <div
           className="absolute top-0 left-0 right-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(232,160,32,0.5), transparent)' }}
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(196,120,50,0.55), transparent)' }}
         />
       )}
 
@@ -101,8 +101,8 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
             featured ? 'w-20 h-20 text-5xl' : 'w-12 h-12 text-3xl mb-3'
           }`}
           style={{
-            background: 'radial-gradient(circle, rgba(232,160,32,0.15) 0%, rgba(180,80,0,0.06) 100%)',
-            border: '1px solid rgba(232,160,32,0.12)',
+            background: 'radial-gradient(circle, rgba(196,120,50,0.18) 0%, rgba(139,90,52,0.07) 100%)',
+            border: '1px solid rgba(196,120,50,0.15)',
           }}
         >
           {sabor.emoji}
@@ -114,19 +114,31 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
             <div className="flex items-start justify-between gap-2 flex-wrap">
               <h3
                 className={`font-display font-bold italic leading-tight ${featured ? 'text-xl' : 'text-base'}`}
-                style={{ color: '#f0e6d0' }}
+                style={{ color: '#FAF0DC' }}
               >
                 {sabor.nombre}
               </h3>
-              <span
-                className="text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0"
-                style={{ background: 'rgba(232,160,32,0.12)', color: '#e8a020', border: '1px solid rgba(232,160,32,0.2)' }}
-              >
-                {sabor.precio.toFixed(2)} €
-              </span>
+              <div className="flex flex-col items-end gap-0.5 shrink-0">
+                <span
+                  className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                  style={{ background: 'rgba(212,137,58,0.12)', color: '#EAB85A', border: '1px solid rgba(212,137,58,0.22)' }}
+                >
+                  {sabor.precio.toFixed(2)} €
+                </span>
+                {sabor.precioGrande && (
+                  <span className="text-[10px]" style={{ color: 'rgba(250,240,220,0.30)' }}>
+                    grande {sabor.precioGrande.toFixed(2)} €
+                  </span>
+                )}
+              </div>
             </div>
+            {sabor.nota && (
+              <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'rgba(212,137,58,0.65)' }}>
+                {sabor.nota}
+              </p>
+            )}
             {featured && (
-              <p className="text-sm mt-1 line-clamp-2 leading-snug" style={{ color: 'rgba(240,230,208,0.42)' }}>
+              <p className="text-sm mt-1 line-clamp-2 leading-snug" style={{ color: 'rgba(250,240,220,0.44)' }}>
                 {sabor.descripcion}
               </p>
             )}
@@ -138,16 +150,16 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
               href={`/reservar?sabor=${sabor.id}&fecha=${fecha}`}
               className="self-start inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all duration-150"
               style={{
-                background: featured ? 'rgba(232,160,32,0.15)' : 'transparent',
-                color: '#e8a020',
-                border: '1px solid rgba(232,160,32,0.25)',
+                background: featured ? 'rgba(196,120,50,0.15)' : 'transparent',
+                color: '#DFA855',
+                border: '1px solid rgba(196,120,50,0.28)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(232,160,32,0.25)'
-                e.currentTarget.style.boxShadow = '0 0 16px rgba(232,160,32,0.2)'
+                e.currentTarget.style.background = 'rgba(196,120,50,0.25)'
+                e.currentTarget.style.boxShadow = '0 0 16px rgba(196,120,50,0.22)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = featured ? 'rgba(232,160,32,0.15)' : 'transparent'
+                e.currentTarget.style.background = featured ? 'rgba(196,120,50,0.15)' : 'transparent'
                 e.currentTarget.style.boxShadow = 'none'
               }}
             >
@@ -181,7 +193,7 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           className="text-[10px] uppercase tracking-[0.25em] font-bold"
-          style={{ color: 'rgba(240,230,208,0.35)' }}
+          style={{ color: 'rgba(242,226,192,0.38)' }}
         >
           Catálogo
         </motion.p>
@@ -191,7 +203,7 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
           viewport={{ once: true }}
           transition={{ delay: 0.05 }}
           className="font-display font-bold italic capitalize"
-          style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: '#f0e6d0' }}
+          style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: '#F2E2C0' }}
         >
           {fechaLabel}
         </motion.h2>
@@ -214,10 +226,10 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
           style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
         >
           <span className="text-6xl opacity-60">🌙</span>
-          <p className="font-display italic text-xl" style={{ color: 'rgba(240,230,208,0.5)' }}>
+          <p className="font-display italic text-xl" style={{ color: 'rgba(242,226,192,0.52)' }}>
             Cupo agotado para este día
           </p>
-          <p className="text-sm" style={{ color: 'rgba(240,230,208,0.3)' }}>
+          <p className="text-sm" style={{ color: 'rgba(242,226,192,0.32)' }}>
             Elige otro día en el calendario
           </p>
         </motion.div>

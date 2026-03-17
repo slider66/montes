@@ -5,7 +5,9 @@ export interface Sabor {
   nombre: string
   descripcion: string
   emoji: string
-  precio: number
+  precio: number        // precio mediana (6 huevos)
+  precioGrande?: number // precio grande (12 huevos)
+  nota?: string         // ej: "Con cebolla · Sin cebolla"
   activo: boolean
   imagenUrl?: string
 }

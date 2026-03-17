@@ -1,101 +1,247 @@
 @import "tailwindcss";
 
-/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+/* ─── Design Tokens — Pantone Tortilla ──────────────────────────────────── */
 @theme {
-  --color-m-bg:        #050200;
-  --color-m-surface:   rgba(255, 200, 80, 0.05);
-  --color-m-border:    rgba(255, 200, 80, 0.12);
-  --color-m-gold:      #e8a020;
-  --color-m-gold-hi:   #f0c040;
-  --color-m-amber:     #f59e0b;
-  --color-m-orange:    #ff6b20;
-  --color-m-cream:     #f0e6d0;
-  --color-m-muted:     rgba(240, 230, 208, 0.4);
+  /* ── Colores base ─────────────────────────────────────────────────────── */
+  --color-m-bg:          #1A0E05;           /* Caoba cálido (más claro)       */
+  --color-m-bg-warm:     #241508;           /* Surface cálida                 */
+  --color-m-bg-card:     #2E1A0A;           /* Cards elevadas                 */
 
-  --font-display: var(--font-playfair), Georgia, serif;
-  --font-sans:    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* ── Paleta tortilla (Pantone) ────────────────────────────────────────── */
+  --color-m-tortilla:    #D4893A;           /* Pantone 16-1340 Warm Caramel   */
+  --color-m-tortilla-hi: #EAB85A;           /* Pantone 14-1127 Apricot        */
+  --color-m-gold:        #F2D06E;           /* Pantone 13-0858 Sunflower      */
+  --color-m-terracota:   #D4622A;           /* Pantone 17-1450 Burnt Sienna   */
+  --color-m-siena:       #A06838;           /* Pantone 17-1142 Adobe          */
+
+  /* ── Texto ────────────────────────────────────────────────────────────── */
+  --color-m-cream:       #FAF0DC;           /* Pantone 11-0602 Vanilla        */
+  --color-m-cream-2:     #E8D5B0;           /* Crema apagada                  */
+  --color-m-muted:       rgba(250, 240, 220, 0.50);
+
+  /* ── Bordes y superficies ─────────────────────────────────────────────── */
+  --color-m-border:      rgba(212, 137, 58, 0.22);
+  --color-m-border-hi:   rgba(234, 184, 90, 0.40);
+  --color-m-surface:     rgba(212, 137, 58, 0.09);
+  --color-m-surface-hi:  rgba(212, 137, 58, 0.15);
+
+  /* ── Tipografía ───────────────────────────────────────────────────────── */
+  --font-display: var(--font-cormorant), 'Georgia', serif;
+  --font-sans:    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* ─── Base ─────────────────────────────────────────────────────────────────── */
+/* ─── Base ──────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: #050200;
-  color: #f0e6d0;
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  background: #1A0E05;
+  color: #FAF0DC;
+  font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ─── Grain overlay (fixed, full page) ─────────────────────────────────────── */
+/* ─── Grain overlay — textura artesanal ────────────────────────────────── */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
-/* ─── Typography ───────────────────────────────────────────────────────────── */
-.font-display { font-family: var(--font-playfair), Georgia, serif; }
+/* ─── Tipografía ────────────────────────────────────────────────────────── */
+.font-display { font-family: var(--font-cormorant), Georgia, serif; }
 
-/* ─── Scrollbar hide ───────────────────────────────────────────────────────── */
-.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-
-/* ─── Ticker ────────────────────────────────────────────────────────────────── */
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+h1, h2, h3, h4 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
 }
-.ticker-track {
-  animation: ticker 28s linear infinite;
-  will-change: transform;
-}
-.ticker-track:hover { animation-play-state: paused; }
 
-/* ─── Gradient text util ────────────────────────────────────────────────────── */
-.text-gradient-gold {
-  background: linear-gradient(135deg, #f0c040 0%, #e8a020 45%, #c8780a 100%);
+/* ─── Gradient text ─────────────────────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #EAC96A 0%, #C47832 50%, #8B5A34 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ─── Glow utilities ─────────────────────────────────────────────────────────── */
-.glow-gold  { box-shadow: 0 0 24px rgba(232, 160, 32, 0.35); }
-.glow-amber { box-shadow: 0 0 32px rgba(245, 158, 11, 0.30); }
+.text-gradient-warm {
+  background: linear-gradient(135deg, #DFA855 0%, #C45820 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-/* ─── Aurora background ──────────────────────────────────────────────────────── */
+/* ─── Glass morphism ────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(196, 120, 50, 0.05);
+  border: 1px solid rgba(196, 120, 50, 0.14);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass:hover {
+  background: rgba(196, 120, 50, 0.09);
+  border-color: rgba(223, 168, 85, 0.28);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-warm {
+  background: rgba(34, 20, 8, 0.85);
+  border: 1px solid rgba(196, 120, 50, 0.18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ─── Glow ──────────────────────────────────────────────────────────────── */
+.glow-tortilla  { box-shadow: 0 0 28px rgba(196, 120, 50, 0.40); }
+.glow-gold      { box-shadow: 0 0 28px rgba(234, 201, 106, 0.30); }
+.glow-terracota { box-shadow: 0 0 28px rgba(196, 88, 32, 0.35); }
+
+/* ─── Fondos atmosféricos ───────────────────────────────────────────────── */
 .aurora {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(232,160,32,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(255,107,32,0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(5,2,0,1) 40%, #050200 100%);
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(212, 137, 58, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(212, 98, 42, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #1A0E05 40%, #1A0E05 100%);
 }
 
-/* ─── Card glass ─────────────────────────────────────────────────────────────── */
-.glass {
-  background: rgba(255, 200, 80, 0.04);
-  border: 1px solid rgba(255, 200, 80, 0.10);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-.glass:hover {
-  background: rgba(255, 200, 80, 0.07);
-  border-color: rgba(255, 200, 80, 0.22);
+.aurora-subtle {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 25%, rgba(212, 137, 58, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 70% at 85% 75%, rgba(212, 98, 42, 0.08) 0%, transparent 50%),
+    #1A0E05;
 }
 
-/* ─── Scroll-driven fade-up ──────────────────────────────────────────────────── */
+/* ─── Divisor decorativo ────────────────────────────────────────────────── */
+.divider-tortilla {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196, 120, 50, 0.4), rgba(234, 201, 106, 0.6), rgba(196, 120, 50, 0.4), transparent);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #1A0E06; }
+::-webkit-scrollbar-thumb {
+  background: rgba(196, 120, 50, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(196, 120, 50, 0.60); }
+
+/* ─── Ticker ────────────────────────────────────────────────────────────── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation: ticker 30s linear infinite;
+  will-change: transform;
+}
+.ticker-track:hover { animation-play-state: paused; }
+
+/* ─── Animaciones ───────────────────────────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .fade-up {
-  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in { animation: fadeIn 0.5s ease both; }
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Badge / Chip ──────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-tortilla {
+  background: rgba(196, 120, 50, 0.12);
+  border: 1px solid rgba(196, 120, 50, 0.30);
+  color: #DFA855;
+}
+
+.badge-cream {
+  background: rgba(242, 226, 192, 0.08);
+  border: 1px solid rgba(242, 226, 192, 0.18);
+  color: #F2E2C0;
+}
+
+/* ─── Botones ───────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #C47832 0%, #A85E20 100%);
+  color: #F2E2C0;
+  border: 1px solid rgba(234, 201, 106, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(196, 120, 50, 0.30);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #DFA855 0%, #C47832 100%);
+  box-shadow: 0 6px 24px rgba(196, 120, 50, 0.45);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  background: transparent;
+  color: #DFA855;
+  border: 1px solid rgba(223, 168, 85, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-outline:hover {
+  background: rgba(196, 120, 50, 0.08);
+  border-color: rgba(223, 168, 85, 0.55);
 }

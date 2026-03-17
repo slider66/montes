@@ -15,7 +15,7 @@ const M = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct',
 
 function RingStock({ pct, sel }: { pct: number; sel: boolean }) {
   const r = 18, c = 2 * Math.PI * r
-  const color = pct === 0 ? '#f87171' : pct <= 0.38 ? '#fb923c' : sel ? '#fde68a' : '#e8a020'
+  const color = pct === 0 ? '#f87171' : pct <= 0.38 ? '#C45820' : sel ? '#EAC96A' : '#C47832'
   return (
     <svg width="48" height="48" viewBox="0 0 48 48">
       <circle cx="24" cy="24" r={r} fill="none" strokeWidth="2.5" stroke="rgba(255,255,255,0.07)" />
@@ -46,7 +46,7 @@ export function CalendarioSemana({ dias, stockSemana, fechaSeleccionada }: Props
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         className="text-[10px] uppercase tracking-[0.25em] font-bold mb-5"
-        style={{ color: 'rgba(240,230,208,0.35)' }}
+        style={{ color: 'rgba(242,226,192,0.38)' }}
       >
         Elige tu día
       </motion.p>
@@ -72,20 +72,19 @@ export function CalendarioSemana({ dias, stockSemana, fechaSeleccionada }: Props
               whileTap={!completo ? { scale: 0.96 } : {}}
               onClick={() => !completo && router.push(`/?fecha=${fecha}`)}
               disabled={completo}
-              snap-start
               className="snap-start shrink-0 flex flex-col items-center gap-1.5 min-w-[76px] px-2.5 py-3 rounded-2xl border transition-all duration-200 cursor-pointer disabled:cursor-not-allowed"
               style={{
                 background: sel
-                  ? 'linear-gradient(145deg, rgba(232,160,32,0.22), rgba(248,196,0,0.12))'
+                  ? 'linear-gradient(145deg, rgba(196,120,50,0.22), rgba(223,168,85,0.10))'
                   : completo
                   ? 'rgba(255,255,255,0.02)'
-                  : 'rgba(255,200,80,0.04)',
+                  : 'rgba(196,120,50,0.05)',
                 borderColor: sel
-                  ? 'rgba(232,160,32,0.55)'
+                  ? 'rgba(196,120,50,0.55)'
                   : completo
                   ? 'rgba(255,255,255,0.05)'
-                  : 'rgba(255,200,80,0.10)',
-                boxShadow: sel ? '0 0 20px rgba(232,160,32,0.25)' : 'none',
+                  : 'rgba(196,120,50,0.14)',
+                boxShadow: sel ? '0 0 24px rgba(196,120,50,0.28)' : 'none',
                 opacity: completo ? 0.38 : 1,
                 backdropFilter: 'blur(12px)',
               }}
@@ -93,26 +92,26 @@ export function CalendarioSemana({ dias, stockSemana, fechaSeleccionada }: Props
               {esHoy && (
                 <span
                   className="text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full"
-                  style={{ background: 'rgba(232,160,32,0.2)', color: '#e8a020' }}
+                  style={{ background: 'rgba(196,120,50,0.18)', color: '#DFA855' }}
                 >
                   hoy
                 </span>
               )}
               <span
                 className="text-[10px] font-semibold uppercase tracking-wider"
-                style={{ color: sel ? '#fde68a' : 'rgba(240,230,208,0.4)' }}
+                style={{ color: sel ? '#EAC96A' : 'rgba(242,226,192,0.42)' }}
               >
                 {D[d.getDay()]}
               </span>
               <span
                 className="font-display font-black text-2xl leading-none"
-                style={{ color: sel ? '#fff' : 'rgba(240,230,208,0.9)' }}
+                style={{ color: sel ? '#F2E2C0' : 'rgba(242,226,192,0.88)' }}
               >
                 {d.getDate()}
               </span>
               <span
                 className="text-[9px] uppercase tracking-wider"
-                style={{ color: sel ? 'rgba(255,255,255,0.5)' : 'rgba(240,230,208,0.25)' }}
+                style={{ color: sel ? 'rgba(242,226,192,0.55)' : 'rgba(242,226,192,0.26)' }}
               >
                 {M[d.getMonth()]}
               </span>
