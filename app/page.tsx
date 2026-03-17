@@ -1,6 +1,7 @@
 import { getSabores } from '@/lib/edge-config'
 import { getStockDia, getStockSemana, MAX_TORTILLAS_DIA } from '@/lib/kv'
 import { getDiasDisponibles, getEstadoHorario } from '@/lib/horario'
+import { esTiempoTorrijas } from '@/lib/temporada'
 import { Hero3D }          from '@/components/ui/Hero3D'
 import { MarqueeTicker }   from '@/components/ui/MarqueeTicker'
 import { CalendarioSemana } from '@/components/ui/CalendarioSemana'
@@ -83,6 +84,17 @@ const SABORES_DEMO = [
   },
 ]
 
+const SABOR_TORRIJAS = {
+  id: 'torrijas',
+  nombre: 'Torrijas de Semana Santa',
+  descripcion: 'Edición especial de temporada. Pan brioche empapado en leche, huevo y canela, dorado en aceite de oliva. Solo disponibles en Semana Santa.',
+  emoji: '🍞',
+  precio: 2.50,
+  nota: '⏳ Tiempo limitado · Solo Semana Santa',
+  activo: true,
+  esTemporada: true,
+} as const
+
 export default async function HomePage({ searchParams }: Props) {
   const { fecha: fechaParam } = await searchParams
   const diasDisponibles = getDiasDisponibles(false)
@@ -99,7 +111,10 @@ export default async function HomePage({ searchParams }: Props) {
     getStockDia(fechaSeleccionada),
   ])
 
-  const saboresFinales   = sabores.length > 0 ? sabores : SABORES_DEMO
+  const saboresBase    = sabores.length > 0 ? sabores : SABORES_DEMO
+  const saboresFinales = esTiempoTorrijas()
+    ? [...saboresBase, SABOR_TORRIJAS]
+    : saboresBase
   const stockFinal       = sabores.length > 0 ? stockDia : MAX_TORTILLAS_DIA
   const stockSemanaFinal = sabores.length > 0
     ? stockSemana

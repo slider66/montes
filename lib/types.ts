@@ -10,6 +10,7 @@ export interface Sabor {
   nota?: string         // ej: "Con cebolla · Sin cebolla"
   activo: boolean
   imagenUrl?: string
+  esTemporada?: boolean  // true = no reservable, solo disponible en local
 }
 
 // ─── Reservas ─────────────────────────────────────────────────────────────────

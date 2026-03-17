@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { MAX_TORTILLAS_DIA } from '@/lib/kv'
@@ -15,7 +16,6 @@ interface Props {
   abierto: boolean
 }
 
-// ── Stock bar indicator ──────────────────────────────────────────────────────
 function StockIndicator({ disponible }: { disponible: number }) {
   const pct = disponible / MAX_TORTILLAS_DIA
   const col = pct === 0 ? '#f87171' : pct <= 0.38 ? '#fb923c' : '#4ade80'
@@ -37,7 +37,6 @@ function StockIndicator({ disponible }: { disponible: number }) {
   )
 }
 
-// ── Individual bento card ────────────────────────────────────────────────────
 interface CardProps {
   sabor: Sabor
   stockDia: number
@@ -57,136 +56,131 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-32px' }}
       transition={{ duration: 0.6, delay: index * 0.065, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={!sinStock ? { scale: 1.015 } : {}}
-      className={`group relative overflow-hidden rounded-3xl border flex flex-col transition-all duration-300 ${
-        featured ? 'col-span-2 min-h-[200px]' : 'min-h-[180px]'
-      }`}
-      style={{
-        background: sinStock
-          ? 'rgba(255,255,255,0.02)'
-          : featured
-          ? 'linear-gradient(145deg, rgba(196,120,50,0.10), rgba(139,90,52,0.06))'
-          : 'rgba(196,120,50,0.05)',
-        borderColor: sinStock
-          ? 'rgba(255,255,255,0.05)'
-          : featured
-          ? 'rgba(196,120,50,0.28)'
-          : 'rgba(196,120,50,0.14)',
-        backdropFilter: 'blur(14px)',
-        opacity: sinStock ? 0.5 : 1,
-      }}
+      whileHover={!sinStock ? { scale: 1.018 } : {}}
+      className={`group relative overflow-hidden rounded-3xl flex flex-col ${featured ? 'col-span-2' : ''}`}
+      style={{ opacity: sinStock ? 0.5 : 1 }}
     >
-      {/* Shimmer highlight on hover */}
-      {!sinStock && (
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{
-            background: 'linear-gradient(105deg, transparent 35%, rgba(196,120,50,0.07) 50%, transparent 65%)',
-          }}
-        />
-      )}
-
-      {/* Featured top banner */}
-      {featured && !sinStock && (
-        <div
-          className="absolute top-0 left-0 right-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(196,120,50,0.55), transparent)' }}
-        />
-      )}
-
-      <div className={`flex flex-1 ${featured ? 'flex-row items-center gap-5 p-5' : 'flex-col p-4'}`}>
-        {/* Emoji area */}
-        <div
-          className={`flex items-center justify-center rounded-2xl shrink-0 ${
-            featured ? 'w-20 h-20 text-5xl' : 'w-12 h-12 text-3xl mb-3'
-          }`}
-          style={{
-            background: 'radial-gradient(circle, rgba(196,120,50,0.18) 0%, rgba(139,90,52,0.07) 100%)',
-            border: '1px solid rgba(196,120,50,0.15)',
-          }}
-        >
-          {sabor.emoji}
-        </div>
-
-        {/* Text */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between gap-2">
-          <div>
-            <div className="flex items-start justify-between gap-2 flex-wrap">
-              <h3
-                className={`font-display font-bold italic leading-tight ${featured ? 'text-xl' : 'text-base'}`}
-                style={{ color: '#FAF0DC' }}
-              >
-                {sabor.nombre}
-              </h3>
-              <div className="flex flex-col items-end gap-0.5 shrink-0">
-                <span
-                  className="text-[11px] font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: 'rgba(212,137,58,0.12)', color: '#EAB85A', border: '1px solid rgba(212,137,58,0.22)' }}
-                >
-                  {sabor.precio.toFixed(2)} €
-                </span>
-                {sabor.precioGrande && (
-                  <span className="text-[10px]" style={{ color: 'rgba(250,240,220,0.30)' }}>
-                    grande {sabor.precioGrande.toFixed(2)} €
-                  </span>
-                )}
-              </div>
-            </div>
-            {sabor.nota && (
-              <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'rgba(212,137,58,0.65)' }}>
-                {sabor.nota}
-              </p>
-            )}
-            {featured && (
-              <p className="text-sm mt-1 line-clamp-2 leading-snug" style={{ color: 'rgba(250,240,220,0.44)' }}>
-                {sabor.descripcion}
-              </p>
-            )}
+      {/* Imagen */}
+      <div className={`relative w-full overflow-hidden ${featured ? 'h-52' : 'h-36'}`}>
+        {sabor.imagenUrl ? (
+          <Image
+            src={sabor.imagenUrl}
+            alt={sabor.nombre}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes={featured ? '(max-width: 640px) 100vw, 672px' : '(max-width: 640px) 50vw, 336px'}
+          />
+        ) : (
+          <div
+            className="absolute inset-0 flex items-center justify-center text-6xl"
+            style={{ background: 'radial-gradient(circle, rgba(196,120,50,0.18) 0%, rgba(139,90,52,0.07) 100%)' }}
+          >
+            {sabor.emoji}
           </div>
-
-          {/* CTA */}
-          {puedaReservar ? (
-            <Link
-              href={`/reservar?sabor=${sabor.id}&fecha=${fecha}`}
-              className="self-start inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all duration-150"
-              style={{
-                background: featured ? 'rgba(196,120,50,0.15)' : 'transparent',
-                color: '#DFA855',
-                border: '1px solid rgba(196,120,50,0.28)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(196,120,50,0.25)'
-                e.currentTarget.style.boxShadow = '0 0 16px rgba(196,120,50,0.22)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = featured ? 'rgba(196,120,50,0.15)' : 'transparent'
-                e.currentTarget.style.boxShadow = 'none'
-              }}
+        )}
+        {/* Gradiente sobre imagen */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(18,10,4,0.92) 0%, rgba(18,10,4,0.3) 50%, transparent 100%)' }}
+        />
+        {/* Badge temporada */}
+        {sabor.esTemporada && (
+          <div
+            className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm"
+            style={{ background: 'rgba(245,200,66,0.18)', color: '#F5C842', border: '1px solid rgba(245,200,66,0.45)' }}
+          >
+            ⏳ Temporada
+          </div>
+        )}
+        {/* Badge precio */}
+        <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
+          <span
+            className="text-[12px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm"
+            style={{ background: 'rgba(18,10,4,0.65)', color: '#EAB85A', border: '1px solid rgba(212,137,58,0.35)' }}
+          >
+            {sabor.precio.toFixed(2)} €
+          </span>
+          {sabor.precioGrande && (
+            <span
+              className="text-[10px] px-2 py-0.5 rounded-full backdrop-blur-sm"
+              style={{ background: 'rgba(18,10,4,0.50)', color: 'rgba(250,240,220,0.55)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
-              Reservar
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2.5 6h7M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          ) : (
-            <span className="self-start text-[11px] font-medium px-4 py-2 rounded-xl" style={{ color: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              {sinStock ? 'Sin stock' : 'Cerrado'}
+              grande {sabor.precioGrande.toFixed(2)} €
             </span>
           )}
         </div>
+      </div>
+
+      {/* Contenido */}
+      <div
+        className="flex flex-col gap-2 p-4 flex-1"
+        style={{
+          background: sinStock ? 'rgba(255,255,255,0.02)' : featured ? 'linear-gradient(145deg, rgba(196,120,50,0.10), rgba(139,90,52,0.06))' : 'rgba(196,120,50,0.05)',
+          borderLeft: `1px solid ${sinStock ? 'rgba(255,255,255,0.05)' : featured ? 'rgba(196,120,50,0.28)' : 'rgba(196,120,50,0.14)'}`,
+          borderRight: `1px solid ${sinStock ? 'rgba(255,255,255,0.05)' : featured ? 'rgba(196,120,50,0.28)' : 'rgba(196,120,50,0.14)'}`,
+          borderBottom: `1px solid ${sinStock ? 'rgba(255,255,255,0.05)' : featured ? 'rgba(196,120,50,0.28)' : 'rgba(196,120,50,0.14)'}`,
+          borderBottomLeftRadius: '1.5rem',
+          borderBottomRightRadius: '1.5rem',
+        }}
+      >
+        {sabor.nota && (
+          <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: 'rgba(212,137,58,0.65)' }}>
+            {sabor.nota}
+          </p>
+        )}
+        <h3
+          className={`font-display font-bold italic leading-tight ${featured ? 'text-lg' : 'text-sm'}`}
+          style={{ color: '#FAF0DC' }}
+        >
+          {sabor.nombre}
+        </h3>
+        {featured && (
+          <p className="text-xs leading-snug line-clamp-2" style={{ color: 'rgba(250,240,220,0.44)' }}>
+            {sabor.descripcion}
+          </p>
+        )}
+        {sabor.esTemporada ? (
+          <span
+            className="self-start text-[11px] font-bold px-4 py-2 rounded-xl mt-auto"
+            style={{ color: '#F5C842', border: '1px solid rgba(245,200,66,0.35)', background: 'rgba(245,200,66,0.08)' }}
+          >
+            Disponible en local
+          </span>
+        ) : puedaReservar ? (
+          <Link
+            href={`/reservar?sabor=${sabor.id}&fecha=${fecha}`}
+            className="self-start inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl mt-auto transition-all duration-150"
+            style={{ background: featured ? 'rgba(196,120,50,0.15)' : 'transparent', color: '#DFA855', border: '1px solid rgba(196,120,50,0.28)' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(196,120,50,0.25)'
+              e.currentTarget.style.boxShadow = '0 0 16px rgba(196,120,50,0.22)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = featured ? 'rgba(196,120,50,0.15)' : 'transparent'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            Reservar
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2.5 6h7M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+        ) : (
+          <span className="self-start text-[11px] font-medium px-4 py-2 rounded-xl mt-auto" style={{ color: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            {sinStock ? 'Sin stock' : 'Cerrado'}
+          </span>
+        )}
       </div>
     </motion.div>
   )
 }
 
-// ── Main export ───────────────────────────────────────────────────────────────
 export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
   const d = new Date(fecha + 'T12:00:00')
   const fechaLabel = `${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`
 
   return (
     <section className="w-full max-w-2xl mx-auto px-5 pb-24">
-      {/* Header */}
       <div className="flex flex-col gap-2 mb-6">
         <motion.p
           initial={{ opacity: 0, x: -12 }}
@@ -217,7 +211,6 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
         </motion.div>
       </div>
 
-      {/* Empty state */}
       {stockDia === 0 ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -234,24 +227,18 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
           </p>
         </motion.div>
       ) : (
-        /* Bento grid: alternating featured (col-span-2) + normal */
         <div className="grid grid-cols-2 gap-3">
-          {sabores.map((sabor, i) => {
-            // Pattern: 0=featured, 1=small, 2=small, 3=featured, 4=small, 5=small...
-            const pos = i % 3
-            const featured = pos === 0
-            return (
-              <BentoCard
-                key={sabor.id}
-                sabor={sabor}
-                stockDia={stockDia}
-                fecha={fecha}
-                abierto={abierto}
-                featured={featured}
-                index={i}
-              />
-            )
-          })}
+          {sabores.map((sabor, i) => (
+            <BentoCard
+              key={sabor.id}
+              sabor={sabor}
+              stockDia={stockDia}
+              fecha={fecha}
+              abierto={abierto}
+              featured={i % 3 === 0}
+              index={i}
+            />
+          ))}
         </div>
       )}
     </section>
