@@ -61,7 +61,7 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
       style={{ opacity: sinStock ? 0.5 : 1 }}
     >
       {/* Imagen */}
-      <div className={`relative w-full overflow-hidden ${featured ? 'h-52' : 'h-36'}`}>
+      <div className={`relative w-full overflow-hidden ${featured ? 'h-52' : 'h-36'}`} style={{ transform: 'translateZ(0)' }}>
         {sabor.imagenUrl ? (
           <Image
             src={sabor.imagenUrl}
