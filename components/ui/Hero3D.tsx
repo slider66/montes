@@ -84,7 +84,7 @@ export function Hero3D({ estado }: Props = {}) {
               className="text-lg md:text-xl font-light mb-10 max-w-sm leading-relaxed"
               style={{ color: 'rgba(250,240,220,0.55)' }}
             >
-              La mejor tortilla artesanal.<br />
+              La mejor tortilla artesanal en San Agustín de Guadalix.<br />
               Reserva la tuya antes de que se agote.
             </motion.p>
 
