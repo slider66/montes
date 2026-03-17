@@ -93,6 +93,7 @@ const SABOR_TORRIJAS = {
   nota: '⏳ Tiempo limitado · Solo Semana Santa',
   activo: true,
   esTemporada: true,
+  imagenUrl: '/tortillas/torrijas.webp',
 } as const
 
 export default async function HomePage({ searchParams }: Props) {
