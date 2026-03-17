@@ -18,7 +18,7 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
             width={56}
             height={56}
             className="rounded-xl"
-            style={{ mixBlendMode: 'multiply', filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
+            style={{ filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
           />
           <div>
             <h2
