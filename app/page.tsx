@@ -4,6 +4,7 @@ import { getDiasDisponibles, getEstadoHorario } from '@/lib/horario'
 import { esTiempoTorrijas } from '@/lib/temporada'
 import { isEncargosEnabled } from '@/lib/features'
 import { EncargosCTA } from '@/components/encargo/EncargosCTA'
+import { DemoSwitch } from '@/components/ui/DemoSwitch'
 import { Hero3D }          from '@/components/ui/Hero3D'
 import { MarqueeTicker }   from '@/components/ui/MarqueeTicker'
 import { CalendarioSemana } from '@/components/ui/CalendarioSemana'
@@ -126,6 +127,9 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <main>
+      {/* Switch demo — visible solo para el desarrollador/vendedor */}
+      <DemoSwitch encargosActivo={encargosActivo} />
+
       {/* ── Primer viewport: Hero 3D ──────────────────────────────────────── */}
       <Hero3D estado={estado} />
 

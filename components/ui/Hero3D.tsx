@@ -68,7 +68,7 @@ export function Hero3D({ estado }: Props = {}) {
                 width={80}
                 height={80}
                 className="rounded-2xl"
-                style={{ filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
+                style={{ mixBlendMode: 'multiply', filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
                 priority
               />
               <div className="overflow-hidden">
