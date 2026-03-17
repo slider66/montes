@@ -24,6 +24,10 @@ build/
 *.tsbuildinfo
 next-env.d.ts
 
+# claude code & mcp (may contain API tokens)
+.mcp.json
+.claude/settings.local.json
+
 # misc
 .DS_Store
 *.pem
