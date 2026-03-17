@@ -13,10 +13,11 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
         {/* Logo / nombre */}
         <div className="flex items-center gap-4 mb-8">
           <Image
-            src="/logo.webp"
+            src="/logo.png"
             alt="Café & Tortilla Montes"
             width={56}
             height={56}
+            unoptimized
             className="rounded-xl"
             style={{ filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
           />

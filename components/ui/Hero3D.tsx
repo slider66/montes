@@ -63,10 +63,11 @@ export function Hero3D({ estado }: Props = {}) {
               className="flex items-center gap-4 mb-5"
             >
               <Image
-                src="/logo.webp"
+                src="/logo.png"
                 alt="Café & Tortilla Montes"
                 width={80}
                 height={80}
+                unoptimized
                 className="rounded-2xl"
                 style={{ filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
                 priority

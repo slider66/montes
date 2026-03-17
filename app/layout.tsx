@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: '8 sabores únicos, stock limitado. Reserva la tuya antes de que se agote. C. Postas, 2 · San Agustín de Guadalix.',
     locale: 'es_ES',
     type: 'website',
-    images: [{ url: '/logo.webp', width: 512, height: 512, alt: 'Café & Tortilla Montes' }],
+    images: [{ url: '/logo.png', width: 512, height: 512, alt: 'Café & Tortilla Montes' }],
   },
   robots: { index: true, follow: true },
 }
