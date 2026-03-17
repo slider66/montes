@@ -7,7 +7,9 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:mcpservers.org)",
-      "Bash(pnpm --version)"
+      "Bash(pnpm --version)",
+      "Bash(node -e \":*)",
+      "Bash(find c:/Proyectos/montes/public -name \"*.png\" -delete)"
     ]
   }
 }

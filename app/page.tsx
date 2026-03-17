@@ -24,6 +24,7 @@ const SABORES_DEMO = [
     precioGrande: 14.50,
     nota: '6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/clasica-abierta.webp',
   },
   {
     id: 'clasica-sin',
@@ -34,6 +35,7 @@ const SABORES_DEMO = [
     precioGrande: 14.50,
     nota: '6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/clasica-sin-cebolla.webp',
   },
   {
     id: 'jamon-queso',
@@ -44,6 +46,7 @@ const SABORES_DEMO = [
     precioGrande: 18.50,
     nota: 'Rellena · 6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/jamon-queso.webp',
   },
   {
     id: 'chorizo',
@@ -54,6 +57,7 @@ const SABORES_DEMO = [
     precioGrande: 18.50,
     nota: 'Rellena · 6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/chorizo.webp',
   },
   {
     id: 'morcilla',
@@ -64,6 +68,7 @@ const SABORES_DEMO = [
     precioGrande: 18.50,
     nota: 'Rellena · 6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/morcilla.webp',
   },
   {
     id: 'atun',
@@ -74,6 +79,7 @@ const SABORES_DEMO = [
     precioGrande: 18.50,
     nota: 'Rellena · 6 huevos · 12 huevos disponible',
     activo: true,
+    imagenUrl: '/tortillas/atun.webp',
   },
 ]
 

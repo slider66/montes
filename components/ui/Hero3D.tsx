@@ -162,7 +162,7 @@ export function Hero3D({ estado }: Props = {}) {
               }}
             >
               <Image
-                src="/tortilla-hero.png"
+                src="/tortilla-hero.webp"
                 alt="Tortilla artesanal Montes"
                 fill
                 priority
