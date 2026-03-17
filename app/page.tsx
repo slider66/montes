@@ -134,7 +134,7 @@ export default async function HomePage({ searchParams }: Props) {
       <Hero3D estado={estado} />
 
       {/* ── Contenido que scrollea ────────────────────────────────────────── */}
-      <div className="relative z-10" style={{ background: '#1A0E05' }}>
+      <div className="relative z-10 bg-[#1A0E05]">
         <MarqueeTicker />
         <CalendarioSemana
           dias={diasDisponibles}

@@ -174,6 +174,70 @@ h1, h2, h3, h4 {
   animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ─── BentoCatalogo ─────────────────────────────────────────────────────── */
+.bento-stock-track { background: rgba(255, 255, 255, 0.06); }
+
+.bento-emoji-bg {
+  background: radial-gradient(circle, rgba(196, 120, 50, 0.18) 0%, rgba(139, 90, 52, 0.07) 100%);
+}
+.bento-img-gradient {
+  background: linear-gradient(to top, rgba(18, 10, 4, 0.92) 0%, rgba(18, 10, 4, 0.3) 50%, transparent 100%);
+}
+
+.bento-card-body {
+  background: rgba(196, 120, 50, 0.05);
+  border-left:   1px solid rgba(196, 120, 50, 0.14);
+  border-right:  1px solid rgba(196, 120, 50, 0.14);
+  border-bottom: 1px solid rgba(196, 120, 50, 0.14);
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
+.bento-card-body.featured {
+  background: linear-gradient(145deg, rgba(196, 120, 50, 0.10), rgba(139, 90, 52, 0.06));
+  border-color: rgba(196, 120, 50, 0.28);
+}
+.bento-card-body.no-stock {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.badge-season {
+  background: rgba(245, 200, 66, 0.18);
+  color: #F5C842;
+  border: 1px solid rgba(245, 200, 66, 0.45);
+}
+.badge-price {
+  background: rgba(18, 10, 4, 0.65);
+  color: #EAB85A;
+  border: 1px solid rgba(212, 137, 58, 0.35);
+}
+.badge-price-large {
+  background: rgba(18, 10, 4, 0.50);
+  color: rgba(250, 240, 220, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bento-btn-reserve {
+  color: #DFA855;
+  border: 1px solid rgba(196, 120, 50, 0.28);
+  background: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.bento-btn-reserve.featured { background: rgba(196, 120, 50, 0.15); }
+.bento-btn-reserve:hover {
+  background: rgba(196, 120, 50, 0.25);
+  box-shadow: 0 0 16px rgba(196, 120, 50, 0.22);
+}
+.bento-btn-season {
+  color: #F5C842;
+  border: 1px solid rgba(245, 200, 66, 0.35);
+  background: rgba(245, 200, 66, 0.08);
+}
+.bento-btn-disabled {
+  color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 /* ─── Badge / Chip ──────────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;

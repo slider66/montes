@@ -15,6 +15,7 @@
 
 import { get } from '@vercel/edge-config'
 import { cookies } from 'next/headers'
+import { cache } from 'react'
 
 // ─── Feature: Sistema de Encargos ────────────────────────────────────────────
 // Prioridad de activación (de mayor a menor):
@@ -22,7 +23,7 @@ import { cookies } from 'next/headers'
 //   2. Edge Config featureEncargos=true → activa en producción (pagó la fase)
 //   3. FEATURE_ENCARGOS=true en .env.local → activa en desarrollo local
 
-export async function isEncargosEnabled(): Promise<boolean> {
+export const isEncargosEnabled = cache(async (): Promise<boolean> => {
   // 1. Cookie de demo (override rápido para mostrar al cliente)
   try {
     const jar = await cookies()
@@ -43,4 +44,4 @@ export async function isEncargosEnabled(): Promise<boolean> {
   } catch {
     return false
   }
-}
+})
