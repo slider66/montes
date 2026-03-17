@@ -55,26 +55,44 @@ export function Hero3D({ estado }: Props = {}) {
               {estado?.abierto === false ? 'Cerrado ahora' : 'San Agustín de Guadalix'}
             </motion.span>
 
-            {/* Título display */}
-            <div className="overflow-hidden mb-5">
-              <motion.h1
-                initial={{ y: '110%' }}
-                animate={{ y: 0 }}
-                transition={{ type: 'spring', stiffness: 55, damping: 16, delay: 0.1 }}
-                className="font-display font-black italic leading-[0.88] tracking-tight select-none"
-                style={{
-                  fontSize: 'clamp(4.5rem, 13vw, 8.5rem)',
-                  background:
-                    'linear-gradient(145deg, #F2D06E 0%, #D4893A 45%, #A06838 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 0 56px rgba(212,137,58,0.4))',
-                }}
-              >
-                Montes
-              </motion.h1>
-            </div>
+            {/* Logo + título */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="flex items-center gap-4 mb-5"
+            >
+              <Image
+                src="/logo.webp"
+                alt="Café & Tortilla Montes"
+                width={80}
+                height={80}
+                className="rounded-2xl"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
+                priority
+              />
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ y: '110%' }}
+                  animate={{ y: 0 }}
+                  transition={{ type: 'spring', stiffness: 55, damping: 16, delay: 0.15 }}
+                  className="font-display font-black italic leading-[0.88] tracking-tight select-none"
+                  style={{
+                    fontSize: 'clamp(3.5rem, 10vw, 7rem)',
+                    background: 'linear-gradient(145deg, #F2D06E 0%, #D4893A 45%, #A06838 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: 'drop-shadow(0 0 56px rgba(212,137,58,0.4))',
+                  }}
+                >
+                  Montes
+                </motion.h1>
+                <p className="text-[11px] uppercase tracking-[0.2em] font-medium" style={{ color: 'rgba(212,137,58,0.7)' }}>
+                  Café &amp; Tortilla
+                </p>
+              </div>
+            </motion.div>
 
             {/* Tagline */}
             <motion.p

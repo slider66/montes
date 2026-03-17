@@ -21,17 +21,22 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Café y Tortilla Montes — San Agustín de Guadalix',
-    template: '%s | Café y Tortilla Montes',
+    default: 'Café & Tortilla Montes — San Agustín de Guadalix',
+    template: '%s | Café & Tortilla Montes',
   },
   description:
-    'Cafetería Montes en San Agustín del Guadalix. Tortillas de patata caseras en 6 variedades, croquetas de jamón, café y bollería. 4,7★ en Google. Recogida 07:00–14:00. C. Postas, 2.',
+    'Café & Tortilla Montes en San Agustín de Guadalix. Tortillas de patata caseras en 6 variedades, croquetas de jamón, café y bollería. 4,7★ en Google. Recogida 07:00–14:00. C. Postas, 2.',
   keywords: ['tortilla', 'tortilla de patata', 'San Agustín de Guadalix', 'artesanal', 'reservas', 'cafetería', 'café Montes', 'croquetas', 'bollería', 'Madrid'],
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
-    title: 'Café y Tortilla Montes — 4,7★ en Google',
-    description: '8 sabores únicos, stock limitado. Reserva la tuya antes de que se agote. C. Postas, 2 · San Agustín del Guadalix.',
+    title: 'Café & Tortilla Montes — 4,7★ en Google',
+    description: '8 sabores únicos, stock limitado. Reserva la tuya antes de que se agote. C. Postas, 2 · San Agustín de Guadalix.',
     locale: 'es_ES',
     type: 'website',
+    images: [{ url: '/logo.webp', width: 512, height: 512, alt: 'Café & Tortilla Montes' }],
   },
   robots: { index: true, follow: true },
 }

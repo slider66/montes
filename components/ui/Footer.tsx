@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export function Footer() {
   return (
     <footer
@@ -9,22 +11,32 @@ export function Footer() {
 
       <div className="max-w-2xl mx-auto px-5 py-12">
         {/* Logo / nombre */}
-        <div className="mb-8">
-          <h2
-            className="font-display font-black italic mb-1"
-            style={{
-              fontSize: 'clamp(2rem, 6vw, 3rem)',
-              background: 'linear-gradient(135deg, #F2D06E 0%, #D4893A 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            Montes
-          </h2>
-          <p className="text-sm" style={{ color: 'rgba(250,240,220,0.42)' }}>
-            Café y Tortilla · Artesanal desde siempre
-          </p>
+        <div className="flex items-center gap-4 mb-8">
+          <Image
+            src="/logo.webp"
+            alt="Café & Tortilla Montes"
+            width={56}
+            height={56}
+            className="rounded-xl"
+            style={{ filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
+          />
+          <div>
+            <h2
+              className="font-display font-black italic leading-none"
+              style={{
+                fontSize: 'clamp(1.6rem, 5vw, 2.4rem)',
+                background: 'linear-gradient(135deg, #F2D06E 0%, #D4893A 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Montes
+            </h2>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(250,240,220,0.42)' }}>
+              Café &amp; Tortilla · Artesanal desde siempre
+            </p>
+          </div>
         </div>
 
         {/* Grid de info */}
@@ -117,7 +129,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.25)' }}>
-            © {new Date().getFullYear()} Café y Tortilla Montes · San Agustín del Guadalix
+            © {new Date().getFullYear()} Café &amp; Tortilla Montes · San Agustín de Guadalix
           </p>
           <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.18)' }}>
             Hecho con cariño 🥚
