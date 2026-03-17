@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export function Footer() {
+export function Footer({ encargosActivo = false }: { encargosActivo?: boolean }) {
   return (
     <footer
       className="relative w-full border-t"
@@ -131,9 +131,20 @@ export function Footer() {
           <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.25)' }}>
             © {new Date().getFullYear()} Café &amp; Tortilla Montes · San Agustín de Guadalix
           </p>
-          <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.18)' }}>
-            Hecho con cariño 🥚
-          </p>
+          <div className="flex items-center gap-4">
+            {encargosActivo && (
+              <a
+                href="/encargo"
+                className="text-[11px] transition-opacity hover:opacity-70"
+                style={{ color: 'rgba(212,137,58,0.65)' }}
+              >
+                Encargos
+              </a>
+            )}
+            <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.18)' }}>
+              Hecho con cariño 🥚
+            </p>
+          </div>
         </div>
       </div>
     </footer>

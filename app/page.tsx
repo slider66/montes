@@ -2,6 +2,8 @@ import { getSabores } from '@/lib/edge-config'
 import { getStockDia, getStockSemana, MAX_TORTILLAS_DIA } from '@/lib/kv'
 import { getDiasDisponibles, getEstadoHorario } from '@/lib/horario'
 import { esTiempoTorrijas } from '@/lib/temporada'
+import { isEncargosEnabled } from '@/lib/features'
+import { EncargosCTA } from '@/components/encargo/EncargosCTA'
 import { Hero3D }          from '@/components/ui/Hero3D'
 import { MarqueeTicker }   from '@/components/ui/MarqueeTicker'
 import { CalendarioSemana } from '@/components/ui/CalendarioSemana'
@@ -106,10 +108,11 @@ export default async function HomePage({ searchParams }: Props) {
       ? fechaParam
       : diasDisponibles[0]
 
-  const [sabores, stockSemana, stockDia] = await Promise.all([
+  const [sabores, stockSemana, stockDia, encargosActivo] = await Promise.all([
     getSabores(),
     getStockSemana(diasDisponibles),
     getStockDia(fechaSeleccionada),
+    isEncargosEnabled(),
   ])
 
   const saboresBase    = sabores.length > 0 ? sabores : SABORES_DEMO
@@ -140,8 +143,9 @@ export default async function HomePage({ searchParams }: Props) {
           fecha={fechaSeleccionada}
           abierto={estado.abierto}
         />
+        {encargosActivo && <EncargosCTA />}
         <CartaSection />
-        <Footer />
+        <Footer encargosActivo={encargosActivo} />
       </div>
     </main>
   )
