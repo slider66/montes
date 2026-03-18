@@ -1,4 +1,4 @@
-import type { Reserva, Cupon } from './types'
+import type { Reserva, Cupon, Encargo } from './types'
 
 export const MAX_TORTILLAS_DIA = 8
 
@@ -10,6 +10,8 @@ export const KEYS = {
   reservasPorFecha: (fecha: string) => `reservas:fecha:${fecha}`,
   reservasPorCliente: (email: string) => `reservas:cliente:${email}`,
   cupon: (codigo: string) => `cupon:${codigo.toUpperCase()}`,
+  encargo: (id: string) => `encargo:${id}`,
+  encargosPorFecha: (fecha: string) => `encargos:fecha:${fecha}`,
 }
 
 // ─── Cliente KV (lazy, evita crash si no hay credenciales) ────────────────────
@@ -113,6 +115,32 @@ export async function cancelarReserva(id: string): Promise<boolean> {
     kv.set(KEYS.reserva(id), { ...reserva, estado: 'cancelada' }),
   ])
   return true
+}
+
+// ─── CRUD Encargos ────────────────────────────────────────────────────────────
+
+export async function guardarEncargo(encargo: Encargo): Promise<void> {
+  const kv = getKV()
+  if (!kv) return
+  await Promise.all([
+    kv.set(KEYS.encargo(encargo.id), encargo, { ex: 60 * 60 * 24 * 60 }),
+    kv.sadd(KEYS.encargosPorFecha(encargo.fechaRecogida), encargo.id),
+  ])
+}
+
+export async function getEncargo(id: string): Promise<Encargo | null> {
+  const kv = getKV()
+  if (!kv) return null
+  return kv.get<Encargo>(KEYS.encargo(id))
+}
+
+export async function getEncargosPorFecha(fecha: string): Promise<Encargo[]> {
+  const kv = getKV()
+  if (!kv) return []
+  const ids = await kv.smembers<string[]>(KEYS.encargosPorFecha(fecha))
+  if (!ids.length) return []
+  const resultados = await Promise.all(ids.map((id) => kv.get<Encargo>(KEYS.encargo(id))))
+  return resultados.filter(Boolean) as Encargo[]
 }
 
 // ─── Cupones ──────────────────────────────────────────────────────────────────

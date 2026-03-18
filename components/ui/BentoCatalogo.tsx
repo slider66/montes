@@ -14,12 +14,17 @@ interface Props {
   stockDia: number
   fecha: string
   abierto: boolean
+  encargosActivo?: boolean
 }
 
 function StockIndicator({ disponible }: { disponible: number }) {
   const pct = disponible / MAX_TORTILLAS_DIA
   const col = pct === 0 ? '#f87171' : pct <= 0.38 ? '#fb923c' : '#4ade80'
-  const label = pct === 0 ? 'Sin plazas' : pct <= 0.38 ? `${disponible} últimas` : `${disponible} / ${MAX_TORTILLAS_DIA}`
+  const label = pct === 0
+    ? 'Sin tortillas disponibles hoy'
+    : pct <= 0.38
+    ? `¡Solo quedan ${disponible} tortillas para hoy!`
+    : `${disponible} tortillas disponibles para hoy`
 
   return (
     <div className="flex items-center gap-2.5">
@@ -133,12 +138,12 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
   )
 }
 
-export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
+export function BentoCatalogo({ sabores, stockDia, fecha, abierto, encargosActivo }: Props) {
   const d = new Date(fecha + 'T12:00:00')
   const fechaLabel = `${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`
 
   return (
-    <section className="w-full max-w-2xl mx-auto px-5 pb-24">
+    <section className="w-full max-w-2xl mx-auto px-5 pt-10 pb-24">
       <div className="flex flex-col gap-2 mb-6">
         <motion.p
           initial={{ opacity: 0, x: -12 }}
@@ -158,14 +163,21 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
         >
           {fechaLabel}
         </motion.h2>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-        >
-          <StockIndicator disponible={stockDia} />
-        </motion.div>
+        {encargosActivo && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <StockIndicator disponible={stockDia} />
+            </motion.div>
+            <p className="text-[10px] leading-snug mt-1" style={{ color: 'rgba(250,240,220,0.28)' }}>
+              ⚠ Stock orientativo — solo refleja reservas online. Los pedidos en local pueden reducir la disponibilidad real. Te confirmaremos al recoger.
+            </p>
+          </>
+        )}
       </div>
 
       {stockDia === 0 ? (
@@ -176,10 +188,10 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto }: Props) {
         >
           <span className="text-6xl opacity-60">🌙</span>
           <p className="font-display italic text-xl text-[rgba(242,226,192,0.52)]">
-            Cupo agotado para este día
+            Cupo agotado para hoy
           </p>
           <p className="text-sm text-[rgba(242,226,192,0.32)]">
-            Elige otro día en el calendario
+            Llámanos al 633 77 11 63
           </p>
         </motion.div>
       ) : (
