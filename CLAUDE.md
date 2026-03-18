@@ -72,6 +72,8 @@ Todo lo que está en `main` actualmente:
 
 ### 🔲 FASE 2 — Sistema de Encargos
 
+> **Plan detallado en [`FASE2.md`](./FASE2.md)** — tipos, KV schema, API spec, árbol de componentes, emails, reglas de negocio y checklist completo.
+
 **Activación:** cambiar `featureEncargos = true` en Edge Config (sin redeploy).
 
 #### Fase 2A — Tipos + Storage + API (commit independiente)
