@@ -87,7 +87,7 @@ Crear `scripts/seed-stock.ts` para inicializar el KV con stock para los próximo
 import { kv } from '@vercel/kv'
 import { getDiasDisponibles } from '../lib/horario'
 
-const SABORES = ['clasica', 'jamon-queso', 'trufa', 'espinacas-gambas',
+const SABORES = ['clasica', 'jamon-queso', 'casica con cebolla', 'morcilla',
                   'chorizo', 'vegana', 'bacalao', 'setas']
 const STOCK_DIARIO = 20
 
