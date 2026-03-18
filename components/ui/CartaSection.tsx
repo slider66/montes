@@ -1,13 +1,15 @@
+import Image from 'next/image'
+
 const CROQUETAS = [
   { cantidad: '6 unidades', precio: '6,00 €' },
   { cantidad: '12 unidades', precio: '12,00 €' },
 ]
 
 const OTROS = [
-  { categoria: 'Café', items: ['Café solo', 'Cortado', 'Café con leche', 'Cappuccino', 'Descafeinado'] },
-  { categoria: 'Bollería', items: ['Croissant', 'Napolitana', 'Palmera', 'Donut', 'Magdalena'] },
-  { categoria: 'Pan', items: ['Tostada con mantequilla', 'Tostada con tomate', 'Bocadillo'] },
-  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'] },
+  { categoria: 'Café', items: ['Café solo', 'Cortado', 'Café con leche', 'Cappuccino', 'Descafeinado'], imagen: null },
+  { categoria: 'Bollería', items: ['Croissant', 'Napolitana', 'Palmera', 'Donut', 'Magdalena'], imagen: '/carta/bolleria.png' },
+  { categoria: 'Pan', items: ['Tostada con mantequilla', 'Tostada con tomate', 'Bocadillo'], imagen: null },
+  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'], imagen: '/carta/zumo-y-cafe.png' },
 ]
 
 export function CartaSection() {
@@ -27,15 +29,26 @@ export function CartaSection() {
 
       {/* Croquetas */}
       <div
-        className="rounded-2xl p-5 mb-4"
+        className="rounded-2xl overflow-hidden mb-4"
         style={{
           background: 'rgba(212,137,58,0.06)',
           border: '1px solid rgba(212,137,58,0.16)',
         }}
       >
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-2xl">🧆</span>
-          <div>
+        {/* Imagen */}
+        <div className="relative w-full h-36 overflow-hidden">
+          <Image
+            src="/carta/croquetas.png"
+            alt="Croquetas caseras de jamón"
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, 672px"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.7) 0%, transparent 60%)' }} />
+        </div>
+
+        <div className="p-5">
+          <div className="mb-4">
             <h3 className="font-display font-bold italic text-lg" style={{ color: '#FAF0DC' }}>
               Croquetas Caseras de Jamón
             </h3>
@@ -43,7 +56,6 @@ export function CartaSection() {
               Elaboradas en casa, crujientes por fuera y cremosas por dentro
             </p>
           </div>
-        </div>
         <div className="flex gap-3 flex-wrap">
           {CROQUETAS.map(({ cantidad, precio }) => (
             <div
@@ -56,37 +68,52 @@ export function CartaSection() {
             </div>
           ))}
         </div>
+        </div>
       </div>
 
       {/* Café, bollería y bebidas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {OTROS.map(({ categoria, items }) => (
+        {OTROS.map(({ categoria, items, imagen }) => (
           <div
             key={categoria}
-            className="rounded-2xl p-4"
+            className="rounded-2xl overflow-hidden"
             style={{
               background: 'rgba(212,137,58,0.04)',
               border: '1px solid rgba(212,137,58,0.12)',
             }}
           >
-            <p
-              className="text-[10px] uppercase tracking-widest font-bold mb-3"
-              style={{ color: '#D4893A' }}
-            >
-              {categoria}
-            </p>
-            <ul className="flex flex-col gap-1.5">
-              {items.map((item) => (
-                <li
-                  key={item}
-                  className="text-sm flex items-center gap-2"
-                  style={{ color: 'rgba(250,240,220,0.55)' }}
-                >
-                  <span style={{ color: 'rgba(212,137,58,0.50)' }}>·</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {imagen && (
+              <div className="relative w-full h-28 overflow-hidden">
+                <Image
+                  src={imagen}
+                  alt={categoria}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 336px"
+                />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.65) 0%, transparent 60%)' }} />
+              </div>
+            )}
+            <div className="p-4">
+              <p
+                className="text-[10px] uppercase tracking-widest font-bold mb-3"
+                style={{ color: '#D4893A' }}
+              >
+                {categoria}
+              </p>
+              <ul className="flex flex-col gap-1.5">
+                {items.map((item) => (
+                  <li
+                    key={item}
+                    className="text-sm flex items-center gap-2"
+                    style={{ color: 'rgba(250,240,220,0.55)' }}
+                  >
+                    <span style={{ color: 'rgba(212,137,58,0.50)' }}>·</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
