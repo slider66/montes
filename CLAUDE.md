@@ -150,6 +150,8 @@ En `lib/encargos.ts`, añadir HTML de emails vía Resend (ya instalado):
 - **No modificar el algoritmo de Pascua** en `lib/temporada.ts`.
 - **No añadir `sharp` a `package.json`** — ver sección Imágenes.
 - `.mcp.json` y `.claude/settings.local.json` en `.gitignore` — contienen tokens.
+- **Archivos sensibles y git**: estar en `.gitignore` no retira un archivo que ya fue commiteado. Si eso ocurre, ejecutar `git rm --cached <archivo>` y hacer commit. El historial anterior seguirá teniendo el token — rotar la clave inmediatamente en ese caso.
+- **Commits**: no incluir línea `Co-Authored-By: Claude` en los mensajes de commit.
 
 ## Deploy
 
@@ -161,5 +163,5 @@ En `lib/encargos.ts`, añadir HTML de emails vía Resend (ya instalado):
 | Archivo | Contenido | En git |
 |---------|-----------|--------|
 | `.env.local` | Variables de entorno | No |
-| `.mcp.json` | Token API Gemini | No |
+| `.mcp.json` | Token API nano-banana MCP | No |
 | `.claude/settings.local.json` | Config local Claude Code | No |

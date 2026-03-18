@@ -256,7 +256,9 @@ Usuario selecciona sabor + fecha + cantidad
 | **`resend-mcp`** | Gestionar plantillas de email de confirmación desde el agente |
 | **`@modelcontextprotocol/server-filesystem`** | Acceso al proyecto local para que el agente edite archivos directamente |
 
-### Configuración `.cline_mcp_settings.json`
+### Configuración `.mcp.json`
+
+> ⚠️ Este archivo contiene tokens en texto plano. Está en `.gitignore` y **nunca debe commitearse**. Si se commitea accidentalmente, ejecutar `git rm --cached .mcp.json` y rotar el token inmediatamente.
 
 ```json
 {
@@ -268,7 +270,7 @@ Usuario selecciona sabor + fecha + cantidad
     },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "c:/ProyectosDEV/montes"]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "c:/Proyectos/montes"]
     },
     "vercel": {
       "command": "npx",

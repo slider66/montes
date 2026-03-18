@@ -1,10 +1,16 @@
 # Próximos Pasos — Montes Web App
 
+> **Estado a 2026-03-18**: Fase 1 (Landing + Reservas) completada y en producción. El trabajo activo está en Fase 2 (Encargos) — ver `CLAUDE.md` para el detalle actualizado.
+>
+> Este documento refleja la hoja de ruta técnica original. Las fases 0–5 y 7 están completadas. La Fase 2 de encargos (en `CLAUDE.md`) es el siguiente bloque de trabajo.
+
+---
+
 > Hoja de ruta de implementación ordenada por fases. Cada fase es desplegable de forma independiente.
 
 ---
 
-## FASE 0 — Setup del Proyecto (30 min)
+## ✅ FASE 0 — Setup del Proyecto (30 min)
 
 ### 0.1 Inicializar Next.js
 
@@ -30,7 +36,7 @@ vercel env pull      # Descarga las variables de entorno a .env.local
 
 ---
 
-## FASE 1 — Infraestructura Vercel (1-2h)
+## ✅ FASE 1 — Infraestructura Vercel (1-2h)
 
 ### 1.1 Vercel KV (Redis)
 1. En el Dashboard de Vercel → tu proyecto → **Storage** → **Create KV Database**
@@ -56,7 +62,7 @@ vercel env pull      # Descarga las variables de entorno a .env.local
 
 ---
 
-## FASE 2 — Lógica Core (2-3h)
+## ✅ FASE 2 — Lógica Core (2-3h)
 
 ### 2.1 Formulario de Reserva (`/reservar`)
 
@@ -114,7 +120,7 @@ npx tsx scripts/seed-stock.ts
 
 ---
 
-## FASE 3 — Notificaciones por Email (1h)
+## ✅ FASE 3 — Notificaciones por Email (1h)
 
 ### 3.1 Cuenta Resend
 
@@ -172,7 +178,7 @@ await resend.emails.send({
 
 ---
 
-## FASE 4 — Panel de Administración (2-3h)
+## 🔲 FASE 4 — Panel de Administración (2-3h)
 
 ### 4.1 Autenticación Admin
 
@@ -211,7 +217,7 @@ Crear `app/admin/stock/page.tsx`:
 
 ---
 
-## FASE 5 — Optimizaciones de Performance (1-2h)
+## ✅ FASE 5 — Optimizaciones de Performance (1-2h)
 
 ### 5.1 Polling de Stock en Cliente
 
@@ -245,7 +251,7 @@ Al hacer submit del formulario, mostrar inmediatamente la confirmación mientras
 
 ---
 
-## FASE 6 — Pagos con Stripe (opcional, 2-3h)
+## 🔲 FASE 6 — Pagos con Stripe (opcional, 2-3h)
 
 > Solo si se quiere requerir señal para confirmar la reserva y reducir no-shows.
 
@@ -269,7 +275,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 ---
 
-## FASE 7 — Despliegue y Monitorización
+## ✅ FASE 7 — Despliegue y Monitorización
 
 ### 7.1 Despliegue Inicial
 
