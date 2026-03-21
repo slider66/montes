@@ -196,7 +196,7 @@ function htmlEmailCliente(encargo: Encargo): string {
       <p style="text-align:right;font-size:1.2em;margin-top:12px"><strong style="color:#EAB85A">Total: ${encargo.total.toFixed(2)} €</strong></p>
       <hr style="border-color:rgba(196,120,50,0.2);margin:24px 0"/>
       <p style="color:rgba(250,240,220,0.6);font-size:0.85em">
-        📍 C/ Real, 72 · San Agustín de Guadalix<br/>
+        📍 C. Postas, 2 · San Agustín de Guadalix<br/>
         📞 <a href="tel:+34633771163" style="color:#EAB85A">633 77 11 63</a><br/>
         🕐 Recogida: ${encargo.fechaRecogida} a las ${encargo.horaRecogida}<br/>
         🆔 Referencia: ${encargo.id}

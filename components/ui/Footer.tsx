@@ -12,15 +12,19 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
       <div className="max-w-2xl mx-auto px-5 py-12">
         {/* Logo / nombre */}
         <div className="flex items-center gap-4 mb-8">
-          <Image
-            src="/logo.png"
-            alt="Café & Tortilla Montes"
-            width={56}
-            height={56}
-            unoptimized
-            className="rounded-xl"
-            style={{ filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
-          />
+          <div
+            className="rounded-xl overflow-hidden shrink-0"
+            style={{ width: 56, height: 56, background: '#1A0E05', filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Café & Tortilla Montes"
+              width={56}
+              height={56}
+              unoptimized
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div>
             <h2
               className="font-display font-black italic leading-none"
