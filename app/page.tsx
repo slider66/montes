@@ -70,17 +70,6 @@ const SABORES_DEMO = [
     activo: true,
     imagenUrl: '/tortillas/morcilla.webp',
   },
-  {
-    id: 'atun',
-    nombre: 'Atún',
-    descripcion: 'Rellena de atún en aceite de oliva. Suave, jugosa y con todo el sabor del mar en cada bocado.',
-    emoji: '🐟',
-    precio: 10.00,
-    precioGrande: 18.50,
-    nota: 'Rellena · 6 huevos · 12 huevos disponible',
-    activo: true,
-    imagenUrl: '/tortillas/atun.webp',
-  },
 ]
 
 const SABOR_TORRIJAS = {

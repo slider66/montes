@@ -59,16 +59,6 @@ const SABORES_DEMO: Sabor[] = [
     activo: true,
     imagenUrl: '/tortillas/morcilla.webp',
   },
-  {
-    id: 'atun',
-    nombre: 'Atún',
-    descripcion: 'Rellena de atún en aceite de oliva. Suave y jugosa.',
-    emoji: '🐟',
-    precio: 10.0,
-    precioGrande: 18.5,
-    activo: true,
-    imagenUrl: '/tortillas/atun.webp',
-  },
 ]
 
 export default async function EncargoPage() {
