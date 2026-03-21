@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { isEncargosEnabled } from '@/lib/features'
 import { getSabores } from '@/lib/edge-config'
+import { esTiempoTorrijas } from '@/lib/temporada'
 import { EncargoWizard } from '@/components/encargo/EncargoWizard'
 import type { Sabor } from '@/lib/types'
 
@@ -82,5 +83,5 @@ export default async function EncargoPage() {
     (s) => s.activo && !s.esTemporada
   )
 
-  return <EncargoWizard sabores={sabores} />
+  return <EncargoWizard sabores={sabores} esTemporadaTorrijas={esTiempoTorrijas()} />
 }

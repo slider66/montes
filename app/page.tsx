@@ -9,6 +9,7 @@ import { Hero3D }        from '@/components/ui/Hero3D'
 import { MarqueeTicker } from '@/components/ui/MarqueeTicker'
 import { BentoCatalogo } from '@/components/ui/BentoCatalogo'
 import { Footer }        from '@/components/ui/Footer'
+import { FloatingEncargoCTA } from '@/components/ui/FloatingEncargoCTA'
 import { CartaSection }  from '@/components/ui/CartaSection'
 
 export const revalidate = 30
@@ -130,6 +131,7 @@ export default async function HomePage() {
           encargosActivo={encargosActivo}
         />
         {encargosActivo && <EncargosCTA />}
+      {encargosActivo && <FloatingEncargoCTA />}
         <CartaSection />
         <Footer encargosActivo={encargosActivo} />
       </div>

@@ -14,7 +14,7 @@ import { ConfirmacionEncargo } from './ConfirmacionEncargo'
 export interface CartLinea {
   saborId: string
   nombreSabor: string
-  tamano: 'mediana' | 'grande'
+  tamano: 'mediana' | 'grande' | 'unidad'
   cantidad: number
   precioUnitario: number
   subtotal: number
@@ -30,7 +30,7 @@ type CartAction =
       type: 'SET_CANTIDAD'
       saborId: string
       nombre: string
-      tamano: 'mediana' | 'grande'
+      tamano: 'mediana' | 'grande' | 'unidad'
       cantidad: number
       precio: number
     }
@@ -119,7 +119,7 @@ function ProgressSteps({ stage }: { stage: number }) {
 
 // ─── Wizard ───────────────────────────────────────────────────────────────────
 
-export function EncargoWizard({ sabores }: { sabores: Sabor[] }) {
+export function EncargoWizard({ sabores, esTemporadaTorrijas = false }: { sabores: Sabor[]; esTemporadaTorrijas?: boolean }) {
   const [state, dispatch] = useReducer(reducer, { lineas: {}, stage: 0 })
   const [encargoConfirmado, setEncargoConfirmado] = useState<Encargo | null>(null)
 
@@ -132,7 +132,7 @@ export function EncargoWizard({ sabores }: { sabores: Sabor[] }) {
   const setCantidad = (
     saborId: string,
     nombre: string,
-    tamano: 'mediana' | 'grande',
+    tamano: 'mediana' | 'grande' | 'unidad',
     cantidad: number,
     precio: number
   ) => dispatch({ type: 'SET_CANTIDAD', saborId, nombre, tamano, cantidad, precio })
@@ -199,6 +199,7 @@ export function EncargoWizard({ sabores }: { sabores: Sabor[] }) {
                   sabores={sabores}
                   lineas={state.lineas}
                   onSetCantidad={setCantidad}
+                  esTemporadaTorrijas={esTemporadaTorrijas}
                 />
               </div>
               <div className="hidden lg:block w-80 shrink-0 sticky top-6">
