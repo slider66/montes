@@ -7,9 +7,9 @@ const CROQUETAS = [
 
 const OTROS = [
   { categoria: 'Café', items: ['Café solo', 'Cortado', 'Café con leche', 'Cappuccino', 'Descafeinado'], imagen: null },
-  { categoria: 'Bollería', items: ['Croissant', 'Napolitana', 'Palmera', 'Donut', 'Magdalena'], imagen: '/carta/bolleria.png' },
-  { categoria: 'Pan', items: ['Tostada con mantequilla', 'Tostada con tomate', 'Bocadillo'], imagen: null },
-  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'], imagen: '/carta/zumo-y-cafe.png' },
+  { categoria: 'Bollería', items: ['Croissant', 'Napolitana', 'Palmera', 'Donut', 'Magdalena'], imagen: '/carta/bolleria.webp' },
+  { categoria: 'Pan', items: ['Tostada con mantequilla', 'Tostada con tomate', 'Bocadillo'], imagen: '/carta/pan.webp' },
+  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'], imagen: '/carta/zumo-y-cafe.webp' },
 ]
 
 export function CartaSection() {
@@ -38,7 +38,7 @@ export function CartaSection() {
         {/* Imagen */}
         <div className="relative w-full h-36 overflow-hidden">
           <Image
-            src="/carta/croquetas.png"
+            src="/carta/croquetas.webp"
             alt="Croquetas caseras de jamón"
             fill
             className="object-cover"
