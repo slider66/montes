@@ -71,7 +71,6 @@ export function Hero3D({ estado }: Props = {}) {
                   alt="Café & Tortilla Montes"
                   width={80}
                   height={80}
-                  unoptimized
                   className="w-full h-full object-cover"
                   priority
                 />

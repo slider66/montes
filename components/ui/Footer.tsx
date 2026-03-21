@@ -21,7 +21,6 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
               alt="Café & Tortilla Montes"
               width={56}
               height={56}
-              unoptimized
               className="w-full h-full object-cover"
             />
           </div>
