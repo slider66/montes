@@ -184,7 +184,7 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
           </div>
           <div className="h-8 w-px shrink-0" style={{ background: 'rgba(212,137,58,0.2)' }} />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium" style={{ color: '#FAF0DC' }}>199 reseñas en Google</p>
+            <p className="text-sm font-medium" style={{ color: '#FAF0DC' }}>202 reseñas en Google</p>
             <p className="text-xs mt-0.5" style={{ color: 'rgba(250,240,220,0.38)' }}>Cafetería · 1–10 € por persona</p>
           </div>
           <span
