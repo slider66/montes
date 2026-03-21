@@ -6,10 +6,10 @@ const CROQUETAS = [
 ]
 
 const OTROS = [
-  { categoria: 'Café', items: ['Café solo', 'Cortado', 'Café con leche', 'Cappuccino', 'Descafeinado'], imagen: null },
+  { categoria: 'Café', items: ['Café solo', 'Cortado', 'Café con leche', 'Cappuccino', 'Descafeinado'], imagen: '/carta/cafe.webp', objectPosition: 'center 60%' },
   { categoria: 'Bollería', items: ['Croissant', 'Napolitana', 'Palmera', 'Donut', 'Magdalena'], imagen: '/carta/bolleria.webp' },
   { categoria: 'Pan', items: ['Tostada con mantequilla', 'Tostada con tomate', 'Bocadillo'], imagen: '/carta/pan.webp' },
-  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'], imagen: '/carta/zumo-y-cafe.webp' },
+  { categoria: 'Bebidas', items: ['Refresco', 'Cerveza', 'Zumo de naranja natural', 'Agua'], imagen: '/carta/refrescos.webp', objectPosition: 'center 70%' },
 ]
 
 export function CartaSection() {
@@ -42,6 +42,7 @@ export function CartaSection() {
             alt="Croquetas caseras de jamón"
             fill
             className="object-cover"
+            style={{ objectPosition: 'center 60%' }}
             sizes="(max-width: 640px) 100vw, 672px"
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.7) 0%, transparent 60%)' }} />
@@ -73,7 +74,7 @@ export function CartaSection() {
 
       {/* Café, bollería y bebidas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {OTROS.map(({ categoria, items, imagen }) => (
+        {OTROS.map(({ categoria, items, imagen, objectPosition }) => (
           <div
             key={categoria}
             className="rounded-2xl overflow-hidden"
@@ -89,6 +90,7 @@ export function CartaSection() {
                   alt={categoria}
                   fill
                   className="object-cover"
+                  style={objectPosition ? { objectPosition } : undefined}
                   sizes="(max-width: 640px) 100vw, 336px"
                 />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.65) 0%, transparent 60%)' }} />
