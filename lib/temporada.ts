@@ -19,14 +19,15 @@ function calcularPascua(year: number): Date {
 }
 
 // ─── Temporada Torrijas ───────────────────────────────────────────────────────
-// Activa desde 30 días antes de Pascua hasta 7 días después
+// Activa desde 30 días antes del Domingo de Ramos (= Pascua − 37)
+// hasta 7 días después del Domingo de Resurrección (= Pascua + 7)
 
 export function esTiempoTorrijas(ahora: Date = new Date()): boolean {
   const year = ahora.getFullYear()
   const pascua = calcularPascua(year)
 
   const inicio = new Date(pascua)
-  inicio.setDate(inicio.getDate() - 30)
+  inicio.setDate(inicio.getDate() - 37) // 30 días antes de Semana Santa
   inicio.setHours(0, 0, 0, 0)
 
   const fin = new Date(pascua)
