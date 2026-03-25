@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ContadorVisitas } from './ContadorVisitas'
 
 export function Footer({ encargosActivo = false }: { encargosActivo?: boolean }) {
   return (
@@ -129,9 +130,12 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.25)' }}>
-            © {new Date().getFullYear()} Café &amp; Tortilla Montes · San Agustín de Guadalix
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.25)' }}>
+              © {new Date().getFullYear()} Café &amp; Tortilla Montes · San Agustín de Guadalix
+            </p>
+            <ContadorVisitas />
+          </div>
           <div className="flex items-center gap-4">
             {encargosActivo && (
               <a
@@ -142,9 +146,15 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
                 Encargos
               </a>
             )}
-            <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.18)' }}>
-              Hecho con cariño 🥚
-            </p>
+            <a
+              href="https://alexmerle.es"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] transition-opacity hover:opacity-70"
+              style={{ color: 'rgba(250,240,220,0.28)' }}
+            >
+              Desarrollado por alexmerle.es
+            </a>
           </div>
         </div>
       </div>

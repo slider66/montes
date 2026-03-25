@@ -10,6 +10,7 @@ export const KEYS = {
   reservasPorFecha: (fecha: string) => `reservas:fecha:${fecha}`,
   reservasPorCliente: (email: string) => `reservas:cliente:${email}`,
   cupon: (codigo: string) => `cupon:${codigo.toUpperCase()}`,
+  visitas: 'visitas:total',
 }
 
 // ─── Cliente KV (lazy, evita crash si no hay credenciales) ────────────────────
@@ -113,6 +114,20 @@ export async function cancelarReserva(id: string): Promise<boolean> {
     kv.set(KEYS.reserva(id), { ...reserva, estado: 'cancelada' }),
   ])
   return true
+}
+
+// ─── Visitas ──────────────────────────────────────────────────────────────────
+
+export async function incrementarVisitas(): Promise<number> {
+  const kv = getKV()
+  if (!kv) return 0
+  return kv.incr(KEYS.visitas)
+}
+
+export async function getVisitas(): Promise<number> {
+  const kv = getKV()
+  if (!kv) return 0
+  return (await kv.get<number>(KEYS.visitas)) ?? 0
 }
 
 // ─── Cupones ──────────────────────────────────────────────────────────────────
