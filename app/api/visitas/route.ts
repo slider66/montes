@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server'
-import { incrementarVisitas } from '@/lib/kv'
+import { kv } from '@vercel/kv'
 
 export const runtime = 'edge'
 
 export async function POST() {
-  const total = await incrementarVisitas()
-  return NextResponse.json({ total })
+  try {
+    const total = await kv.incr('visitas:total')
+    return NextResponse.json({ total })
+  } catch {
+    return NextResponse.json({ total: 0 })
+  }
 }
