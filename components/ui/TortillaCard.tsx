@@ -89,19 +89,19 @@ export function TortillaCard({ sabor, stockDia, fecha, abierto, encargosActivo =
           {!sinStock && `${sabor.precio.toFixed(2)} € · unidad`}
         </span>
 
-        {puedaReservar && encargosActivo ? (
+        {encargosActivo ? (
           <Link
             href="/encargo"
             className="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-amber-950 text-sm font-bold px-5 py-2 rounded-xl transition-colors duration-150 shadow-[0_0_16px_rgba(245,158,11,0.25)]"
           >
-            Reservar
+            Encargar
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        ) : sinStock || !abierto ? (
+        ) : sinStock ? (
           <span className="inline-flex items-center justify-center bg-white/5 text-white/20 text-sm font-medium px-5 py-2 rounded-xl cursor-not-allowed border border-white/5">
-            {sinStock ? 'Sin stock' : 'Cerrado'}
+            Sin stock
           </span>
         ) : null}
       </div>

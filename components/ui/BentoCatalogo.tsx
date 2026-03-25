@@ -120,21 +120,17 @@ function BentoCard({ sabor, stockDia, fecha, abierto, encargosActivo = false, fe
           <span className="self-start text-[11px] font-bold px-4 py-2 rounded-xl mt-auto bento-btn-season">
             Disponible en local
           </span>
-        ) : puedaReservar && encargosActivo ? (
+        ) : encargosActivo ? (
           <Link
             href="/encargo"
             className={`self-start inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl mt-auto bento-btn-reserve ${featured ? 'featured' : ''}`}
           >
-            Reservar
+            Encargar
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2.5 6h7M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
-        ) : !sinStock && !encargosActivo ? null : (
-          <span className="self-start text-[11px] font-medium px-4 py-2 rounded-xl mt-auto bento-btn-disabled">
-            {sinStock ? 'Sin stock' : 'Cerrado'}
-          </span>
-        )}
+        ) : null}
       </div>
     </motion.div>
   )
