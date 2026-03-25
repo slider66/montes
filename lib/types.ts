@@ -81,6 +81,48 @@ export interface Cupon {
   descripcion?: string
 }
 
+// ─── Encargos ─────────────────────────────────────────────────────────────────
+
+export type EstadoEncargo = 'pendiente' | 'confirmado' | 'cancelado' | 'completado'
+
+export interface LineaEncargo {
+  saborId: string
+  nombreSabor: string
+  tamano: 'mediana' | 'grande'   // mediana = 6 huevos, grande = 12 huevos
+  cantidad: number
+  precioUnitario: number
+  subtotal: number
+}
+
+export interface Encargo {
+  id: string
+  cliente: Cliente
+  lineas: LineaEncargo[]
+  total: number
+  fechaRecogida: string          // ISO date: "2026-03-25"
+  horaRecogida: string           // "09:00"
+  notas?: string
+  estado: EstadoEncargo
+  creadoEn: string               // ISO datetime
+}
+
+export interface CrearEncargoInput {
+  cliente: Cliente
+  lineas: Array<{
+    saborId: string
+    tamano: 'mediana' | 'grande'
+    cantidad: number
+  }>
+  fechaRecogida: string
+  horaRecogida: string
+  notas?: string
+}
+
+export interface CrearEncargoResponse {
+  ok: true
+  encargo: Encargo
+}
+
 // ─── Edge Config ──────────────────────────────────────────────────────────────
 
 export interface ConfigHorario {

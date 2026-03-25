@@ -22,9 +22,12 @@ npm run build
 - **`app/page.tsx`** — Página principal. Contiene `SABORES_DEMO` y `SABOR_TORRIJAS`. Lee `isEncargosEnabled()` para mostrar/ocultar el CTA de encargos.
 - **`lib/features.ts`** — Feature flags. Lee de Edge Config en prod, de `.env.local` en dev. NO añadir lógica de negocio aquí.
 - **`lib/temporada.ts`** — Calcula Pascua (algoritmo Gregoriano Anónimo). No tocar el algoritmo.
-- **`lib/types.ts`** — Tipos TypeScript. `esTemporada?: boolean` = no reservable. `Encargo` y `LineaEncargo` se añadirán en Fase 2.
+- **`lib/types.ts`** — Tipos TypeScript. `esTemporada?: boolean` = no reservable. `Encargo`, `LineaEncargo`, `EstadoEncargo` ya implementados.
 - **`lib/horario.ts`** — Horario 07:00-14:00 Europe/Madrid. Validación en Edge Runtime.
-- **`lib/kv.ts`** — Stock atómico con Vercel KV. `MAX_TORTILLAS_DIA = 8`.
+- **`lib/kv.ts`** — Stock atómico con Vercel KV. `MAX_TORTILLAS_DIA = 8`. Helpers de encargos incluidos.
+- **`lib/encargos.ts`** — Lógica de encargos: validación Zod, regla 48h, cálculo total servidor, emails Resend.
+- **`app/api/encargos/route.ts`** — POST Edge Runtime para crear encargos.
+- **`components/encargo/`** — Wizard completo: catálogo, resumen, formulario, confirmación.
 
 ---
 
@@ -56,7 +59,6 @@ FEATURE_ENCARGOS=true
 ## Hoja de ruta por fases
 
 ### ✅ FASE 1 — Landing + Reservas (COMPLETADA)
-Todo lo que está en `main` actualmente:
 - Hero con imagen real, logo, stats
 - Catálogo bento con imágenes WebP por tortilla
 - Calendario de disponibilidad (7 días)
@@ -66,64 +68,46 @@ Todo lo que está en `main` actualmente:
 - SEO, favicon, OG image
 - Feature flag infrastructure lista para Fase 2
 
-**Para entregar Fase 1:** el flag `featureEncargos` está a `false`. El cliente ve la landing completa sin ningún rastro de encargos.
+**Para entregar Fase 1:** el flag `featureEncargos` está a `false`. El cliente ve la landing sin rastro de encargos.
 
 ---
 
-### 🔲 FASE 2 — Sistema de Encargos
+### ✅ FASE 2 — Sistema de Encargos (COMPLETADA)
 
 > **Plan detallado en [`FASE2.md`](./FASE2.md)** — tipos, KV schema, API spec, árbol de componentes, emails, reglas de negocio y checklist completo.
 
 **Activación:** cambiar `featureEncargos = true` en Edge Config (sin redeploy).
 
-#### Fase 2A — Tipos + Storage + API (commit independiente)
+#### Fase 2A ✅ — Tipos + Storage + API
+- `lib/types.ts` — `LineaEncargo`, `Encargo`, `EstadoEncargo`, `CrearEncargoInput`, `CrearEncargoResponse`
+- `lib/kv.ts` — keys `encargo:*`, helpers `guardarEncargo()`, `getEncargo()`, `getEncargosPorFecha()`
+- `lib/encargos.ts` — validación Zod, regla 48h (date-fns-tz), total en servidor, emails Resend
+- `app/api/encargos/route.ts` — POST Edge Runtime
 
-Archivos a crear/modificar:
-- `lib/types.ts` — añadir `LineaEncargo`, `Encargo`, `EstadoEncargo`, `CrearEncargoInput`, `CrearEncargoResponse`
-- `lib/kv.ts` — añadir keys `encargo:*`, `encargos:fecha:*` y helpers `guardarEncargo()`, `getEncargo()`, `getEncargosPorFecha()`
-- `lib/encargos.ts` — lógica de negocio: validación Zod, regla 48h, cálculo total, llamadas Resend
-- `app/api/encargos/route.ts` — POST handler (Edge Runtime, fuera del matcher de middleware)
-- `middleware.ts` — NO modificar (el matcher actual solo cubre `/reservar` y `/api/reservas`, encargos ya quedan fuera)
-
-Reglas de negocio:
-- Mínimo **48h de antelación** (validar con `date-fns-tz`, zona `Europe/Madrid`)
+Reglas de negocio implementadas:
+- Mínimo **48h de antelación** (zona Europe/Madrid)
 - Máximo **30 días** en el futuro
-- Recogida solo **07:00–13:30** (slots cada hora)
-- Total se recalcula en servidor (no confiar en el del cliente)
+- Slots de recogida: **08:00 – 13:30**
+- Total siempre recalculado en servidor
 
-#### Fase 2B — Cart UI (commit independiente)
+#### Fase 2B ✅ — Cart UI
+- `EncargoWizard.tsx` — shell con `useReducer`, 4 stages, progress bar, layout desktop/mobile
+- `TortillaLineaCard.tsx` — stepper mediana + grande, subtotal en vivo
+- `CatalogoPedido.tsx` — grid de cards
+- `ResumenEncargo.tsx` — sidebar sticky (desktop) + vista resumen (stage 1)
+- `CartDrawerMobile.tsx` — barra flotante + cajón Framer Motion slide-up
 
-Archivos a crear en `components/encargo/`:
-- `EncargoWizard.tsx` — shell cliente con `useReducer` para el carrito. 4 stages: catálogo → resumen → datos → confirmación
-- `CatalogoPedido.tsx` — columna izquierda con tortillas y croquetas
-- `TortillaLineaCard.tsx` — card por sabor: toggle mediana/grande, stepper +/-, subtotal en vivo
-- `CroquetaLineaCard.tsx` — card croquetas: packs de 6 o 12 uds
-- `ResumenEncargo.tsx` — columna derecha sticky: lista de líneas, total, CTA siguiente stage
-- `CartDrawerMobile.tsx` — cajón inferior para móvil (Framer Motion slide-up)
+#### Fase 2C ✅ — Formulario + Confirmación
+- `FormDatosContacto.tsx` — nombre, teléfono, email con validación inline
+- `PickerFechaEncargo.tsx` — calendario hoy+2 hasta hoy+30, estilo CalendarioSemana
+- `PickerHoraEncargo.tsx` — slots 08:00 a 13:30
+- `StepDatos.tsx` — compone form + pickers + llamada a API
+- `ConfirmacionEncargo.tsx` — ID encargo, tabla, botón WhatsApp deep link, descarga .ics
 
-Actualizar:
-- `app/encargo/page.tsx` — sustituir el placeholder por `<EncargoWizard sabores={sabores} />`
-
-#### Fase 2C — Formulario + Confirmación (commit independiente)
-
-Archivos a crear:
-- `FormDatosContacto.tsx` — nombre, teléfono, email con validación Zod en cliente
-- `PickerFechaEncargo.tsx` — calendario desde hoy+2 días, máx 30 días. Estilo igual que `CalendarioSemana.tsx`
-- `PickerHoraEncargo.tsx` — radio group de slots: 08:00, 09:00, 10:00, 11:00, 12:00, 13:00, 13:30
-- `ConfirmacionEncargo.tsx` — ID encargo, tabla resumen, botón WhatsApp deep link, descarga .ics
-
-#### Fase 2D — Emails (commit independiente)
-
-En `lib/encargos.ts`, añadir HTML de emails vía Resend (ya instalado):
-
-**Email admin:**
-- Subject: `Nuevo encargo — [Nombre] · [Fecha] [Hora]`
-- Tabla: Producto | Variante | Tamaño | Uds | Precio | Subtotal
-- Total, notas, teléfono clickable, ID encargo
-
-**Email cliente:**
-- Subject: `¡Encargo confirmado! — Recogida el [Fecha]`
-- Resumen del pedido, dirección de recogida, teléfono del local, ID encargo
+#### Fase 2D ✅ — Emails (incluidos en 2A)
+- Email admin: `Nuevo encargo — [Nombre] · [Fecha] [Hora]`
+- Email cliente: `¡Encargo confirmado! — Recogida el [Fecha]`
+- Ambos en `lib/encargos.ts`, fire & forget (no bloquea la respuesta)
 
 ---
 

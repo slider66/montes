@@ -62,16 +62,19 @@ export function Hero3D({ estado }: Props = {}) {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="flex items-center gap-4 mb-5"
             >
-              <Image
-                src="/logo.png"
-                alt="Café & Tortilla Montes"
-                width={80}
-                height={80}
-                unoptimized
-                className="rounded-2xl"
-                style={{ filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
-                priority
-              />
+              <div
+                className="rounded-2xl overflow-hidden shrink-0"
+                style={{ width: 80, height: 80, background: '#1A0E05', filter: 'drop-shadow(0 0 20px rgba(212,137,58,0.45))' }}
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Café & Tortilla Montes"
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
               <div className="overflow-hidden">
                 <motion.h1
                   initial={{ y: '110%' }}

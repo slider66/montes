@@ -10,6 +10,7 @@
  */
 
 import { useTransition } from 'react'
+import Link from 'next/link'
 import { toggleDemoEncargos } from '@/app/actions/toggleDemo'
 
 interface Props {
@@ -26,13 +27,29 @@ export function DemoSwitch({ encargosActivo }: Props) {
   }
 
   return (
-    <div
-      className="fixed bottom-5 right-5 z-50 group"
-      title={encargosActivo ? 'Desactivar encargos (demo)' : 'Activar encargos (demo)'}
-    >
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
+      {/* Propuesta comercial */}
+      <Link
+        href="/propuesta"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300"
+        style={{
+          opacity: 0.18,
+          background: 'rgba(212,137,58,0.15)',
+          border: '1px solid rgba(212,137,58,0.3)',
+          color: '#EAB85A',
+          backdropFilter: 'blur(8px)',
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.9' }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.18' }}
+      >
+        💼 Propuesta comercial
+      </Link>
+
+      {/* Toggle encargos */}
       <button
         onClick={handleToggle}
         disabled={pending}
+        title={encargosActivo ? 'Desactivar encargos (demo)' : 'Activar encargos (demo)'}
         className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300"
         style={{
           opacity: 0.18,
@@ -44,7 +61,6 @@ export function DemoSwitch({ encargosActivo }: Props) {
         onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
         onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.18' }}
       >
-        {/* Dot indicador */}
         <span
           className="w-1.5 h-1.5 rounded-full"
           style={{ background: encargosActivo ? '#4ade80' : 'rgba(250,240,220,0.3)' }}

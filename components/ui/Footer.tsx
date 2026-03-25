@@ -13,15 +13,18 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
       <div className="max-w-2xl mx-auto px-5 py-12">
         {/* Logo / nombre */}
         <div className="flex items-center gap-4 mb-8">
-          <Image
-            src="/logo.png"
-            alt="Café & Tortilla Montes"
-            width={56}
-            height={56}
-            unoptimized
-            className="rounded-xl"
-            style={{ filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
-          />
+          <div
+            className="rounded-xl overflow-hidden shrink-0"
+            style={{ width: 56, height: 56, background: '#1A0E05', filter: 'drop-shadow(0 0 12px rgba(212,137,58,0.35))' }}
+          >
+            <Image
+              src="/logo.png"
+              alt="Café & Tortilla Montes"
+              width={56}
+              height={56}
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div>
             <h2
               className="font-display font-black italic leading-none"
@@ -41,11 +44,11 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
           </div>
         </div>
 
-        {/* Grid de info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+        {/* Info + Mapa */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 items-stretch">
 
-          {/* Dirección y contacto */}
-          <div className="flex flex-col gap-4">
+          {/* Columna izquierda — datos */}
+          <div className="flex flex-col gap-5 justify-center">
             <InfoItem
               icon={
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -67,10 +70,6 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
               value="633 77 11 63"
               href="tel:+34633771163"
             />
-          </div>
-
-          {/* Horario y servicios */}
-          <div className="flex flex-col gap-4">
             <InfoItem
               icon={
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -93,23 +92,86 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
               </div>
             </div>
           </div>
+
+          {/* Columna derecha — mapa */}
+          <a
+            href="https://maps.app.goo.gl/QHTq71Unv4gcpj6b9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block relative rounded-2xl overflow-hidden group"
+            style={{ border: '1px solid rgba(212,137,58,0.18)', minHeight: 220 }}
+            aria-label="Ver ubicación en Google Maps"
+          >
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d800!2d-3.6188079222245966!3d40.67792493969806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd43d197e8f5f68f%3A0x48b5f64482687d4b!2sCAF%C3%89%20Y%20TORTILLA%20MONTES!5e0!3m2!1ses!2ses!4v1774076479941!5m2!1ses!2ses&maptype=roadmap"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              style={{
+                border: 'none',
+                filter: 'invert(1) hue-rotate(180deg) saturate(0.55) sepia(0.25) brightness(0.82)',
+              }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación Café & Tortilla Montes"
+            />
+            {/* Pin dorado — tip anclado al centro exacto del iframe */}
+            <div className="absolute inset-0 pointer-events-none">
+              {/* Blur para tapar el pin de Google */}
+              <div className="absolute" style={{
+                left: '50%', top: '50%',
+                transform: 'translateX(-50%) translateY(-50%)',
+                width: 22, height: 22,
+                background: 'rgba(26,14,5,0.9)',
+                borderRadius: '50%',
+                filter: 'blur(5px)',
+              }} />
+              <svg
+                width="26" height="34" viewBox="0 0 26 34" fill="none"
+                className="absolute"
+                style={{ left: '50%', top: '50%', transform: 'translateX(-50%) translateY(-100%)' }}
+              >
+                <path d="M13 0C5.82 0 0 5.82 0 13c0 8.667 13 21 13 21S26 21.667 26 13C26 5.82 20.18 0 13 0z" fill="#DFA855"/>
+                <circle cx="13" cy="13" r="5.5" fill="#1A0E05"/>
+                <circle cx="13" cy="13" r="3" fill="#EAB85A"/>
+              </svg>
+            </div>
+
+            {/* CTA bottom */}
+            <div
+              className="absolute inset-0 flex items-end justify-end p-3"
+              style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.75) 0%, transparent 45%)' }}
+            >
+              <span
+                className="text-xs font-medium px-3 py-1.5 rounded-full transition-colors group-hover:bg-[rgba(212,137,58,0.25)]"
+                style={{
+                  background: 'rgba(212,137,58,0.12)',
+                  border: '1px solid rgba(212,137,58,0.32)',
+                  color: '#EAB85A',
+                }}
+              >
+                Ver en Google Maps ↗
+              </span>
+            </div>
+          </a>
         </div>
 
         {/* Rating */}
-        <div
-          className="flex items-center gap-4 p-4 rounded-2xl mb-10"
+        <a
+          href="https://www.google.com/maps/place/CAF%C3%89+Y+TORTILLA+MONTES/@40.6779209,-3.616233,17z/data=!4m8!3m7!1s0xd43d197e8f5f68f:0x48b5f64482687d4b!8m2!3d40.6779209!4d-3.616233!9m1!1b1!16s%2Fg%2F11gr63kts5"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-4 rounded-2xl mb-10 group transition-colors"
           style={{
             background: 'rgba(212,137,58,0.07)',
             border: '1px solid rgba(212,137,58,0.18)',
           }}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col shrink-0">
             <span className="font-display font-bold text-3xl leading-none" style={{ color: '#D4893A' }}>
               4,7
             </span>
             <div className="flex gap-0.5 mt-1">
               {[1,2,3,4,5].map((s) => (
-                <svg key={s} width="12" height="12" viewBox="0 0 12 12" fill={s <= 4 ? '#D4893A' : 'none'}>
+                <svg key={s} width="12" height="12" viewBox="0 0 12 12">
                   <path
                     d="M6 1l1.3 2.6L10 4l-2 2 .5 2.8L6 7.5 3.5 8.8 4 6 2 4l2.7-.4L6 1z"
                     fill={s <= 4 ? '#D4893A' : 'none'}
@@ -121,12 +183,22 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
               ))}
             </div>
           </div>
-          <div className="h-8 w-px" style={{ background: 'rgba(212,137,58,0.2)' }} />
-          <div>
-            <p className="text-sm font-medium" style={{ color: '#FAF0DC' }}>199 reseñas en Google</p>
+          <div className="h-8 w-px shrink-0" style={{ background: 'rgba(212,137,58,0.2)' }} />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium" style={{ color: '#FAF0DC' }}>202 reseñas en Google</p>
             <p className="text-xs mt-0.5" style={{ color: 'rgba(250,240,220,0.38)' }}>Cafetería · 1–10 € por persona</p>
           </div>
-        </div>
+          <span
+            className="shrink-0 text-xs font-medium px-3 py-1.5 rounded-full transition-colors group-hover:bg-[rgba(212,137,58,0.25)]"
+            style={{
+              background: 'rgba(212,137,58,0.10)',
+              border: '1px solid rgba(212,137,58,0.28)',
+              color: '#EAB85A',
+            }}
+          >
+            Deja tu reseña ↗
+          </span>
+        </a>
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

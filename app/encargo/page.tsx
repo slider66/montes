@@ -1,60 +1,77 @@
 import { redirect } from 'next/navigation'
 import { isEncargosEnabled } from '@/lib/features'
+import { getSabores } from '@/lib/edge-config'
+import { esTiempoTorrijas } from '@/lib/temporada'
+import { EncargoWizard } from '@/components/encargo/EncargoWizard'
+import type { Sabor } from '@/lib/types'
 
-/**
- * Página de encargos — FASE 2
- *
- * Redirige a home si el flag no está activo.
- * Para activar: Edge Config → { "featureEncargos": true }
- *
- * TODO Fase 2: sustituir el placeholder por <EncargoWizard />
- */
+export const revalidate = 30
+
+// Fallback cuando Edge Config no está configurado (desarrollo local)
+const SABORES_DEMO: Sabor[] = [
+  {
+    id: 'clasica-con',
+    nombre: 'Clásica con Cebolla',
+    descripcion: 'La receta de siempre. Huevo, patata y cebolla pochada a fuego lento.',
+    emoji: '🥚',
+    precio: 8.0,
+    precioGrande: 14.5,
+    activo: true,
+    imagenUrl: '/tortillas/clasica-abierta.webp',
+  },
+  {
+    id: 'clasica-sin',
+    nombre: 'Clásica sin Cebolla',
+    descripcion: 'La pureza del huevo y la patata. Sabor más directo y tradicional.',
+    emoji: '🍳',
+    precio: 8.0,
+    precioGrande: 14.5,
+    activo: true,
+    imagenUrl: '/tortillas/clasica-sin-cebolla.webp',
+  },
+  {
+    id: 'jamon-queso',
+    nombre: 'Jamón York y Queso',
+    descripcion: 'Rellena con jamón york y queso fundido en el centro.',
+    emoji: '🧀',
+    precio: 10.0,
+    precioGrande: 18.5,
+    activo: true,
+    imagenUrl: '/tortillas/jamon-queso.webp',
+  },
+  {
+    id: 'chorizo',
+    nombre: 'Chorizo',
+    descripcion: 'Rellena de chorizo casero. Sabor intenso y tradicional en cada corte.',
+    emoji: '🌶️',
+    precio: 10.0,
+    precioGrande: 18.5,
+    activo: true,
+    imagenUrl: '/tortillas/chorizo.webp',
+  },
+  {
+    id: 'morcilla',
+    nombre: 'Morcilla',
+    descripcion: 'Rellena de morcilla. Sabor profundo y contundente.',
+    emoji: '🫙',
+    precio: 10.0,
+    precioGrande: 18.5,
+    activo: true,
+    imagenUrl: '/tortillas/morcilla.webp',
+  },
+]
+
 export default async function EncargoPage() {
   const activo = await isEncargosEnabled()
   if (!activo) redirect('/')
 
-  return (
-    <main
-      className="min-h-screen flex items-center justify-center px-6"
-      style={{ background: '#1A0E05' }}
-    >
-      <div className="text-center max-w-sm">
-        <p
-          className="text-[11px] uppercase tracking-[0.25em] font-bold mb-3"
-          style={{ color: 'rgba(212,137,58,0.55)' }}
-        >
-          Próximamente
-        </p>
-        <h1
-          className="font-display font-black italic text-4xl mb-4"
-          style={{ color: '#FAF0DC' }}
-        >
-          Encargos
-        </h1>
-        <p className="text-sm leading-relaxed mb-8" style={{ color: 'rgba(250,240,220,0.45)' }}>
-          Aquí podrás hacer encargos grandes para eventos y celebraciones.
-          Mientras tanto, llámanos al{' '}
-          <a
-            href="tel:+34633771163"
-            className="underline"
-            style={{ color: '#EAB85A' }}
-          >
-            633 77 11 63
-          </a>
-          .
-        </p>
-        <a
-          href="/"
-          className="inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-2xl"
-          style={{
-            background: 'rgba(196,120,50,0.15)',
-            color: '#DFA855',
-            border: '1px solid rgba(196,120,50,0.28)',
-          }}
-        >
-          ← Volver al inicio
-        </a>
-      </div>
-    </main>
+  const saboresRaw = await getSabores()
+
+  // Usar demo si Edge Config no devuelve sabores
+  // Filtrar esTemporada: no son encargables (solo en local durante Semana Santa)
+  const sabores = (saboresRaw.length > 0 ? saboresRaw : SABORES_DEMO).filter(
+    (s) => s.activo && !s.esTemporada
   )
+
+  return <EncargoWizard sabores={sabores} esTemporadaTorrijas={esTiempoTorrijas()} />
 }
