@@ -9,10 +9,11 @@ interface Props {
   stockDia: number
   fecha: string
   abierto: boolean
+  encargosActivo?: boolean
   index?: number
 }
 
-export function TortillaCard({ sabor, stockDia, fecha, abierto, index = 0 }: Props) {
+export function TortillaCard({ sabor, stockDia, fecha, abierto, encargosActivo = false, index = 0 }: Props) {
   const sinStock = stockDia <= 0
   const puedaReservar = abierto && !sinStock
 
@@ -88,9 +89,9 @@ export function TortillaCard({ sabor, stockDia, fecha, abierto, index = 0 }: Pro
           {!sinStock && `${sabor.precio.toFixed(2)} € · unidad`}
         </span>
 
-        {puedaReservar ? (
+        {puedaReservar && encargosActivo ? (
           <Link
-            href={`/reservar?sabor=${sabor.id}&fecha=${fecha}`}
+            href="/encargo"
             className="inline-flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-amber-950 text-sm font-bold px-5 py-2 rounded-xl transition-colors duration-150 shadow-[0_0_16px_rgba(245,158,11,0.25)]"
           >
             Reservar
@@ -98,11 +99,11 @@ export function TortillaCard({ sabor, stockDia, fecha, abierto, index = 0 }: Pro
               <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-        ) : (
+        ) : sinStock || !abierto ? (
           <span className="inline-flex items-center justify-center bg-white/5 text-white/20 text-sm font-medium px-5 py-2 rounded-xl cursor-not-allowed border border-white/5">
             {sinStock ? 'Sin stock' : 'Cerrado'}
           </span>
-        )}
+        ) : null}
       </div>
     </motion.div>
   )

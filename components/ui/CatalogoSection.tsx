@@ -13,6 +13,7 @@ interface Props {
   stockDia: number
   fecha: string
   abierto: boolean
+  encargosActivo?: boolean
 }
 
 function StockBar({ disponible }: { disponible: number }) {
@@ -37,7 +38,7 @@ function StockBar({ disponible }: { disponible: number }) {
   )
 }
 
-export function CatalogoSection({ sabores, stockDia, fecha, abierto }: Props) {
+export function CatalogoSection({ sabores, stockDia, fecha, abierto, encargosActivo = false }: Props) {
   const d = new Date(fecha + 'T12:00:00')
   const fechaLegible = `${DIAS_LARGO[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}`
 
@@ -87,6 +88,7 @@ export function CatalogoSection({ sabores, stockDia, fecha, abierto }: Props) {
               stockDia={stockDia}
               fecha={fecha}
               abierto={abierto}
+              encargosActivo={encargosActivo}
               index={i}
             />
           ))}

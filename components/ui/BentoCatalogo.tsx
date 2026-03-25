@@ -47,11 +47,12 @@ interface CardProps {
   stockDia: number
   fecha: string
   abierto: boolean
+  encargosActivo?: boolean
   featured?: boolean
   index: number
 }
 
-function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }: CardProps) {
+function BentoCard({ sabor, stockDia, fecha, abierto, encargosActivo = false, featured = false, index }: CardProps) {
   const sinStock = stockDia <= 0
   const puedaReservar = abierto && !sinStock
 
@@ -119,9 +120,9 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
           <span className="self-start text-[11px] font-bold px-4 py-2 rounded-xl mt-auto bento-btn-season">
             Disponible en local
           </span>
-        ) : puedaReservar ? (
+        ) : puedaReservar && encargosActivo ? (
           <Link
-            href={`/reservar?sabor=${sabor.id}&fecha=${fecha}`}
+            href="/encargo"
             className={`self-start inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl mt-auto bento-btn-reserve ${featured ? 'featured' : ''}`}
           >
             Reservar
@@ -129,7 +130,7 @@ function BentoCard({ sabor, stockDia, fecha, abierto, featured = false, index }:
               <path d="M2.5 6h7M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
-        ) : (
+        ) : !sinStock && !encargosActivo ? null : (
           <span className="self-start text-[11px] font-medium px-4 py-2 rounded-xl mt-auto bento-btn-disabled">
             {sinStock ? 'Sin stock' : 'Cerrado'}
           </span>
@@ -204,6 +205,7 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto, encargosActiv
               stockDia={stockDia}
               fecha={fecha}
               abierto={abierto}
+              encargosActivo={encargosActivo}
               featured={i % 3 === 0}
               index={i}
             />
