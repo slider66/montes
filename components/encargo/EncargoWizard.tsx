@@ -255,6 +255,28 @@ export function EncargoWizard({ sabores, esTemporadaTorrijas = false }: { sabore
           onSiguiente={() => setStage(1)}
         />
       )}
+
+      {/* Botón flotante para añadir más cosas — visible en Stage 1 y 2 */}
+      {(state.stage === 1 || state.stage === 2) && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setStage(0)}
+          className="fixed bottom-24 right-6 z-40 flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-widest shadow-2xl"
+          style={{
+            background: 'rgba(26, 14, 5, 0.95)',
+            border: '1px solid rgba(212, 137, 58, 0.4)',
+            color: '#EAB85A',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          }}
+        >
+          <span className="text-lg leading-none">+</span>
+          Añadir más cosas
+        </motion.button>
+      )}
     </div>
   )
 }
