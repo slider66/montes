@@ -4,6 +4,8 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 import { JsonLd } from '@/components/JsonLd'
+import { FloatingWhatsApp } from '@/components/ui/FloatingWhatsApp'
+import { ScrollToTop } from '@/components/ui/ScrollToTop'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({
