@@ -11,7 +11,7 @@ export async function toggleDemoEncargos(activo: boolean) {
   if (activo) {
     jar.set(COOKIE, '1', { maxAge: MAX_AGE, path: '/', httpOnly: false, sameSite: 'lax' })
   } else {
-    jar.delete(COOKIE)
+    jar.set(COOKIE, '0', { maxAge: MAX_AGE, path: '/', httpOnly: false, sameSite: 'lax' })
   }
   redirect('/')
 }

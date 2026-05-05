@@ -27,21 +27,26 @@ export const isEncargosEnabled = cache(async (): Promise<boolean> => {
   // 1. Cookie de demo (override rápido para mostrar al cliente)
   try {
     const jar = await cookies()
-    if (jar.get('demo_encargos')?.value === '1') return true
+    const cookie = jar.get('demo_encargos')?.value
+    if (cookie === '1') return true
+    if (cookie === '0') return false
   } catch {
     // En contextos sin cookies (middleware, etc.) ignorar
   }
 
   // 2. Sin Edge Config → variable de entorno local
   if (!process.env.EDGE_CONFIG) {
-    return process.env.FEATURE_ENCARGOS === 'true'
+    // Por defecto ON, a menos que se especifique FEATURE_ENCARGOS=false
+    return process.env.FEATURE_ENCARGOS !== 'false'
   }
 
   // 3. Edge Config (producción real)
   try {
     const flag = await get<boolean>('featureEncargos')
-    return flag === true
+    // Por defecto ON si el flag no existe o no es explícitamente false
+    return flag !== false
   } catch {
-    return false
+    return true
   }
 })
+
