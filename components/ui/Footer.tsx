@@ -103,7 +103,7 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
             aria-label="Ver ubicación en Google Maps"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d-3.614!3d40.677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd43d197e8f5f68f%3A0x48b5f64482687d4b!2sAv.%20de%20Madrid%2C%20San%20Agust%C3%ADn%20de%20Guadalix%2C%20Madrid!5e0!3m2!1ses!2ses!4v1774076479941!5m2!1ses!2ses&maptype=roadmap"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1500!2d-3.614!3d40.677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1774076479941!5m2!1ses!2ses&maptype=roadmap"
               className="absolute inset-0 w-full h-full pointer-events-none"
               style={{
                 border: 'none',
