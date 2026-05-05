@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { ContadorVisitas } from './ContadorVisitas'
 
 export function Footer({ encargosActivo = false }: { encargosActivo?: boolean }) {
   return (
@@ -179,7 +178,6 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
             <p className="text-[11px]" style={{ color: 'rgba(250,240,220,0.25)' }}>
               © {new Date().getFullYear()} Mr Tortilla
             </p>
-            <ContadorVisitas />
           </div>
           <div className="flex items-center gap-4">
             {encargosActivo && (
