@@ -22,80 +22,69 @@ const dmSans = DM_Sans({
 })
 
 // ⚠️ Actualizar con el dominio real antes de lanzar
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cafetortillamontes.es'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://mrtortilla.es'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: 'Café & Tortilla Montes — San Agustín de Guadalix',
-    template: '%s | Café & Tortilla Montes',
+    default: 'Mr Tortilla — Las mejores tortillas artesanales',
+    template: '%s | Mr Tortilla',
   },
   description:
-    'Café & Tortilla Montes en San Agustín de Guadalix. Tortillas de patata caseras en 8 variedades, croquetas de jamón, café y bollería. 4,7★ en Google. Recogida 07:00–14:00. C. Postas, 2.',
+    'Mr Tortilla: Tortillas de patata caseras en 8 variedades, croquetas de jamón, café y bollería. Calidad artesanal y sabor tradicional.',
 
   keywords: [
-    'tortilla de patata San Agustín de Guadalix',
-    'tortilla artesanal Madrid norte',
-    'café tortilla Montes',
-    'desayuno San Agustín de Guadalix',
-    'cafetería Montes',
+    'tortilla de patata artesanal',
+    'Mr Tortilla',
+    'tortilla para llevar',
+    'mejor tortilla de patata',
     'croquetas caseras jamón',
-    'bollería artesanal Madrid',
-    'tortilla patata para llevar',
-    'donde desayunar San Agustín Guadalix',
-    'cafetería cerca de Madrid',
-    'tortilla española casera',
-    'bar desayunos Madrid norte',
+    'bollería artesanal',
+    'encargar tortilla online',
+    'tortilla española tradicional',
   ],
 
-  authors: [{ name: 'Café & Tortilla Montes' }],
-  creator: 'Café & Tortilla Montes',
-  publisher: 'Café & Tortilla Montes',
+  authors: [{ name: 'Mr Tortilla' }],
+  creator: 'Mr Tortilla',
+  publisher: 'Mr Tortilla',
 
   alternates: {
     canonical: '/',
   },
 
   openGraph: {
-    title: 'Café & Tortilla Montes — 4,7★ en Google',
+    title: 'Mr Tortilla — Tortilla Artesanal',
     description:
-      '8 sabores únicos de tortilla artesanal, croquetas de jamón, café y bollería. Stock limitado. C. Postas, 2 · San Agustín de Guadalix.',
+      '8 sabores únicos de tortilla artesanal, croquetas de jamón, café y bollería. Stock limitado.',
     locale: 'es_ES',
     type: 'website',
-    siteName: 'Café & Tortilla Montes',
+    siteName: 'Mr Tortilla',
     url: '/',
     images: [
       {
         url: '/tortilla-hero.webp',
         width: 1200,
         height: 630,
-        alt: 'Tortilla de patata artesanal — Café & Tortilla Montes',
+        alt: 'Tortilla de patata artesanal — Mr Tortilla',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Café & Tortilla Montes — 4,7★ en Google',
+    title: 'Mr Tortilla — Tortilla Artesanal',
     description:
-      '8 sabores únicos de tortilla artesanal. C. Postas, 2 · San Agustín de Guadalix.',
+      '8 sabores únicos de tortilla artesanal.',
     images: ['/tortilla-hero.webp'],
   },
 
   // Geo tags para SEO local
   other: {
     'geo.region':    'ES-MD',
-    'geo.placename': 'San Agustín de Guadalix, Madrid',
-    'geo.position':  '40.6779209;-3.616233',
-    'ICBM':          '40.6779209, -3.616233',
+    'geo.placename': 'Madrid',
     // Open Graph negocio local
-    'business:contact_data:street_address': 'C. Postas, 2',
-    'business:contact_data:locality':       'San Agustín de Guadalix',
-    'business:contact_data:region':         'Madrid',
-    'business:contact_data:postal_code':    '28750',
-    'business:contact_data:country_name':   'España',
-    'business:contact_data:phone_number':   '+34633771163',
+    'business:contact_data:phone_number':   '+34600367217',
     // Clasificación
     'og:type':         'restaurant',
     'restaurant:category': 'Cafetería',
@@ -108,7 +97,6 @@ export const metadata: Metadata = {
   },
 
   // ⚠️ noindex mientras la web no esté en producción
-  // Cambiar a { index: true, follow: true } al lanzar
   robots: { index: false, follow: false },
 }
 

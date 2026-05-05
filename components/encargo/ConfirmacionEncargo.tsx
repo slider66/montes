@@ -24,13 +24,13 @@ function descargarICS(encargo: Encargo) {
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Cafe Montes//Encargo//ES',
+    'PRODID:-//Mr Tortilla//Encargo//ES',
     'BEGIN:VEVENT',
     `DTSTART:${dtStart}`,
     `DTEND:${dtEnd}`,
-    `SUMMARY:Recogida encargo — Café & Tortilla Montes`,
+    `SUMMARY:Recogida encargo — Mr Tortilla`,
     `DESCRIPTION:Encargo ${encargo.id}. Total: ${encargo.total.toFixed(2)} €`,
-    `LOCATION:C. Postas\\, 2\\, San Agustín de Guadalix\\, Madrid`,
+    `LOCATION:Punto de recogida seleccionado`,
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
@@ -39,14 +39,14 @@ function descargarICS(encargo: Encargo) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `encargo-montes-${encargo.id}.ics`
+  a.download = `encargo-mrtortilla-${encargo.id}.ics`
   a.click()
   URL.revokeObjectURL(url)
 }
 
 function urlWhatsApp(encargo: Encargo): string {
   const texto = `Hola, tengo el encargo ${encargo.id} para recoger el ${fechaLegible(encargo.fechaRecogida, encargo.horaRecogida)}.`
-  return `https://wa.me/34633771163?text=${encodeURIComponent(texto)}`
+  return `https://wa.me/34600367217?text=${encodeURIComponent(texto)}`
 }
 
 interface Props {
@@ -143,7 +143,7 @@ export function ConfirmacionEncargo({ encargo }: Props) {
         style={{ background: 'rgba(196,120,50,0.06)', border: '1px solid rgba(196,120,50,0.14)' }}
       >
         <p style={{ color: 'rgba(250,240,220,0.65)' }}>
-          📍 <span style={{ color: '#FAF0DC' }}>C. Postas, 2</span> · San Agustín de Guadalix
+          📍 <span style={{ color: '#FAF0DC' }}>Punto de recogida seleccionado</span>
         </p>
         <p style={{ color: 'rgba(250,240,220,0.65)' }}>
           🕐 Recogida:{' '}

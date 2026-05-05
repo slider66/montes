@@ -38,7 +38,7 @@ export default function PropuestaPage() {
         {/* ── Cabecera ── */}
         <div className="mb-12">
           <p className="text-[10px] uppercase tracking-[0.3em] mb-3" style={{ color: 'rgba(234,184,90,0.6)' }}>
-            Propuesta comercial · Café &amp; Tortilla Montes
+            Propuesta comercial · Mr Tortilla
           </p>
           <h1
             className="font-display font-black italic leading-none mb-4"
@@ -295,7 +295,7 @@ export default function PropuestaPage() {
               { icon: '📦', titulo: 'Nuevos productos', desc: 'Añadir productos a la carta o al catálogo de encargos es cuestión de minutos.' },
               { icon: '🗓️', titulo: 'Reservas de mesa', desc: 'Si en el futuro queréis gestionar reservas de mesa, la arquitectura ya lo soporta.' },
               { icon: '📊', titulo: 'Panel de gestión', desc: 'Se puede añadir un panel interno para ver pedidos, stock y estadísticas sin tocar código.' },
-              { icon: '🌍', titulo: 'Más idiomas', desc: 'La web puede traducirse al inglés u otros idiomas si Montes crece en audiencia.' },
+              { icon: '🌍', titulo: 'Más idiomas', desc: 'La web puede traducirse al inglés u otros idiomas si el negocio crece en audiencia.' },
               { icon: '💳', titulo: 'Pagos online', desc: 'Stripe se integra en cualquier momento sobre la infraestructura existente, sin rehacer nada.' },
               { icon: '📱', titulo: 'App móvil', desc: 'Si un día hace falta una app nativa, el backend que ya existe sirve de base directamente.' },
             ].map((item) => (
@@ -341,7 +341,7 @@ export default function PropuestaPage() {
         </div>
 
         <p className="text-center text-xs mt-10 opacity-25">
-          Propuesta válida 30 días · Elaborada a medida para Café &amp; Tortilla Montes
+          Propuesta válida 30 días · Elaborada a medida por webpc.es
         </p>
 
       </div>
@@ -353,18 +353,18 @@ export default function PropuestaPage() {
 
 const COSTES = [
   { concepto: 'Hosting',                  precio: 'Gratis',       nota: 'Vercel Hobby — hasta ~10.000 visitas/mes. Más que suficiente para un negocio local.',  highlight: true },
-  { concepto: 'Dominio .es',              precio: '5 – 12 €/año', nota: 'cafetortillamontes.es o similar. Buscamos la mejor opción disponible.',                highlight: false },
+  { concepto: 'Dominio .es',              precio: '5 – 12 €/año', nota: 'mrtortilla.es o similar. Buscamos la mejor opción disponible.',                highlight: false },
   { concepto: 'Emails transaccionales',   precio: 'Gratis',       nota: 'Hasta 3.000 emails/mes. Cubre todos los encargos y confirmaciones.',                  highlight: true },
   { concepto: 'Base de datos (stock)',     precio: 'Gratis',       nota: 'Incluido en Vercel — gestión de stock y reservas en tiempo real.',                   highlight: true },
 ]
 
 const BENEFICIOS = [
   { emoji: '📞', titulo: 'Menos llamadas',           desc: 'Los pedidos llegan solos. Tú te concentras en cocinar.' },
-  { emoji: '🌐', titulo: 'Visible en Google 24h',    desc: '"Tortilla San Agustín de Guadalix" — apareces tú.', badge: 'google-search' },
+  { emoji: '🌐', titulo: 'Visible en Google 24h',    desc: '"Mr Tortilla" — apareces tú.', badge: 'google-search' },
   { emoji: '⭐', titulo: 'Más reseñas en Google',    desc: 'El CTA directo convierte clientes en reseñadores con un clic.', badge: 'stars' },
   { emoji: '✅', titulo: 'Pedidos sin errores',      desc: 'Todo por escrito. Sin malentendidos al teléfono.' },
   { emoji: '🕐', titulo: 'Pedidos fuera de horario', desc: 'Los encargos se hacen cuando el cliente quiere.' },
-  { emoji: '💼', titulo: 'Imagen premium',           desc: 'Una web así diferencia a Montes de cualquier competencia local.' },
+  { emoji: '💼', titulo: 'Imagen premium',           desc: 'Una web así diferencia a Mr Tortilla de cualquier competencia local.' },
 ]
 
 // ─── Sub-componentes ──────────────────────────────────────────────────────────

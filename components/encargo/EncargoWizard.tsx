@@ -161,7 +161,7 @@ export function EncargoWizard({ sabores, esTemporadaTorrijas = false }: { sabore
             className="text-[10px] uppercase tracking-[0.25em] font-bold mb-2"
             style={{ color: 'rgba(212,137,58,0.55)' }}
           >
-            Café &amp; Tortilla Montes
+            Mr Tortilla
           </p>
           <h1
             className="font-display font-black italic text-4xl sm:text-5xl"

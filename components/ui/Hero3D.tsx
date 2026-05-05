@@ -52,7 +52,7 @@ export function Hero3D({ estado }: Props = {}) {
               }}
             >
               <span className={`w-1.5 h-1.5 rounded-full ${estado?.abierto === false ? 'bg-red-400' : 'bg-amber-400 animate-pulse'}`} />
-              {estado?.abierto === false ? 'Cerrado ahora' : 'San Agustín de Guadalix'}
+              {estado?.abierto === false ? 'Cerrado ahora' : 'Artesanal & Gourmet'}
             </motion.span>
 
             {/* Logo + título */}
@@ -68,7 +68,7 @@ export function Hero3D({ estado }: Props = {}) {
               >
                 <Image
                   src="/logo.png"
-                  alt="Café & Tortilla Montes"
+                  alt="Mr Tortilla"
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
@@ -90,10 +90,10 @@ export function Hero3D({ estado }: Props = {}) {
                     filter: 'drop-shadow(0 0 56px rgba(212,137,58,0.4))',
                   }}
                 >
-                  Montes
+                  Mr Tortilla
                 </motion.h1>
                 <p className="text-[11px] uppercase tracking-[0.2em] font-medium" style={{ color: 'rgba(212,137,58,0.7)' }}>
-                  Café &amp; Tortilla
+                  Artesanal &amp; Gourmet
                 </p>
               </div>
             </motion.div>
@@ -106,8 +106,8 @@ export function Hero3D({ estado }: Props = {}) {
               className="text-lg md:text-xl font-light mb-10 max-w-sm leading-relaxed"
               style={{ color: 'rgba(250,240,220,0.55)' }}
             >
-              La mejor tortilla artesanal en San Agustín de Guadalix.<br />
-              Reserva la tuya antes de que se agote.
+              La mejor tortilla artesanal a tu alcance.<br />
+              Encarga la tuya online.
             </motion.p>
 
             {/* Stats */}
@@ -185,7 +185,7 @@ export function Hero3D({ estado }: Props = {}) {
             >
               <Image
                 src="/tortilla-hero.webp"
-                alt="Tortilla artesanal Montes"
+                alt="Tortilla artesanal Mr Tortilla"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"

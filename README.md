@@ -1,6 +1,6 @@
-# Café & Tortilla Montes
+# Mr Tortilla
 
-Web app de reservas y encargos para **Café & Tortilla Montes** — San Agustín de Guadalix. Stock limitado de tortillas artesanales, sistema de reserva online, catálogo visual y sistema de encargos grandes para eventos.
+Web app de encargos para **Mr Tortilla**. Sistema de encargos online, catálogo visual y gestión de pedidos para eventos.
 
 ## Stack
 
@@ -53,10 +53,10 @@ BLOB_READ_WRITE_TOKEN=
 RESEND_API_KEY=
 
 # Email del administrador (recibe notificación de cada encargo)
-ADMIN_EMAIL=hola@cafemontes.es
+ADMIN_EMAIL=hola@webpc.es
 
 # Email remitente para los envíos
-FROM_EMAIL=encargos@cafemontes.es
+FROM_EMAIL=encargos@webpc.es
 ```
 
 Para desarrollo local sin Vercel:
@@ -340,7 +340,7 @@ pnpm install   # restaurar lockfile de pnpm para Vercel
 │   ├── kv.ts                         # Stock atómico + CRUD reservas + encargos
 │   ├── edge-config.ts                # Sabores y config desde Edge Config
 │   ├── features.ts                   # Feature flags (cookie > Edge Config > .env)
-│   ├── horario.ts                    # Lógica 07:00-14:00 Europe/Madrid
+│   ├── horario.ts                    # Lógica de horario Europe/Madrid
 │   ├── reservas.ts                   # Lógica de negocio de reservas
 │   ├── encargos.ts                   # Lógica de encargos: validación + emails
 │   └── temporada.ts                  # Cálculo Pascua + torrijas automáticas

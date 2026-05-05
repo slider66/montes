@@ -189,7 +189,7 @@ export function BentoCatalogo({ sabores, stockDia, fecha, abierto, encargosActiv
             Cupo agotado para hoy
           </p>
           <p className="text-sm text-[rgba(242,226,192,0.32)]">
-            Llámanos al 633 77 11 63
+            Llámanos al 600 36 72 17
           </p>
         </motion.div>
       ) : (

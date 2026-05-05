@@ -59,7 +59,7 @@ export function HeroSection({ estado }: Props) {
               filter: 'drop-shadow(0 0 48px rgba(232,160,32,0.3))',
             }}
           >
-            Montes
+            Mr Tortilla
           </motion.h1>
         </div>
 
@@ -72,7 +72,7 @@ export function HeroSection({ estado }: Props) {
           style={{ color: 'rgba(240,230,208,0.55)' }}
         >
           La mejor tortilla artesanal<br />
-          de San Agustín de Guadalix
+          Hecha con amor
         </motion.p>
 
         {/* Stats row */}

@@ -1,5 +1,5 @@
 /**
- * Feature flags — Café & Tortilla Montes
+ * Feature flags — Mr Tortilla
  *
  * Los flags se leen de Vercel Edge Config en producción.
  * En desarrollo local (sin EDGE_CONFIG) se usan variables de entorno.

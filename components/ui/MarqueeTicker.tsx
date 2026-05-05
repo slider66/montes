@@ -1,15 +1,15 @@
 export function MarqueeTicker() {
   const items = [
     '🥚 Tortilla Artesanal',
-    '✦ 4,7★ en Google · 199 reseñas',
-    '📍 C. Postas, 2 · San Agustín del Guadalix',
+    '✦ Ingredientes de proximidad',
+    '📍 Consulta tu punto de recogida',
     '✦ Recogida 07:00–14:00',
     '🧅 8 Sabores Únicos',
-    '✦ Comer aquí · Para llevar',
+    '✦ Para llevar · Encargos Online',
     '🫒 Aceite Virgen Extra',
-    '✦ 1–10€ por persona',
+    '✦ Máxima Calidad',
     '🌿 Producto de Temporada',
-    '✦ Cafetería Montes',
+    '✦ Mr Tortilla',
   ]
 
   const repeated = [...items, ...items]

@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       disallow: '/',
     },
-    // sitemap: 'https://cafetortillamontes.es/sitemap.xml',
+    // sitemap: 'https://mrtortilla.es/sitemap.xml',
   }
 }
