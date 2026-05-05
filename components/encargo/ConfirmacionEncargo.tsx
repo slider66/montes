@@ -30,7 +30,7 @@ function descargarICS(encargo: Encargo) {
     `DTEND:${dtEnd}`,
     `SUMMARY:Recogida encargo — Mr Tortilla`,
     `DESCRIPTION:Encargo ${encargo.id}. Total: ${encargo.total.toFixed(2)} €`,
-    `LOCATION:Punto de recogida seleccionado`,
+    `LOCATION:Av. de Madrid\\, San Agustín de Guadalix\\, Madrid`,
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
@@ -143,7 +143,7 @@ export function ConfirmacionEncargo({ encargo }: Props) {
         style={{ background: 'rgba(196,120,50,0.06)', border: '1px solid rgba(196,120,50,0.14)' }}
       >
         <p style={{ color: 'rgba(250,240,220,0.65)' }}>
-          📍 <span style={{ color: '#FAF0DC' }}>Punto de recogida seleccionado</span>
+          📍 <span style={{ color: '#FAF0DC' }}>Av. de Madrid</span> · San Agustín de Guadalix
         </p>
         <p style={{ color: 'rgba(250,240,220,0.65)' }}>
           🕐 Recogida:{' '}

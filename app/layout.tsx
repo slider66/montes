@@ -82,8 +82,13 @@ export const metadata: Metadata = {
   // Geo tags para SEO local
   other: {
     'geo.region':    'ES-MD',
-    'geo.placename': 'Madrid',
+    'geo.placename': 'San Agustín de Guadalix, Madrid',
     // Open Graph negocio local
+    'business:contact_data:street_address': 'Av. de Madrid',
+    'business:contact_data:locality':       'San Agustín de Guadalix',
+    'business:contact_data:region':         'Madrid',
+    'business:contact_data:postal_code':    '28750',
+    'business:contact_data:country_name':   'España',
     'business:contact_data:phone_number':   '+34600367217',
     // Clasificación
     'og:type':         'restaurant',

@@ -52,6 +52,17 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
             <InfoItem
               icon={
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1.5C5.515 1.5 3.5 3.515 3.5 6c0 3.75 4.5 8.5 4.5 8.5S12.5 9.75 12.5 6c0-2.485-2.015-4.5-4.5-4.5zm0 6.125a1.625 1.625 0 110-3.25 1.625 1.625 0 010 3.25z" fill="currentColor"/>
+                </svg>
+              }
+              label="Dirección"
+              value="Av. de Madrid"
+              sub="San Agustín de Guadalix, Madrid"
+              href="https://www.google.com/maps/search/?api=1&query=Av.+de+Madrid,+San+Agustin+de+Guadalix,+Madrid"
+            />
+            <InfoItem
+              icon={
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M13.5 11.5l-2-2a1 1 0 00-1.4 0l-.9.9a7.1 7.1 0 01-3.6-3.6l.9-.9a1 1 0 000-1.4l-2-2A1 1 0 003.1 3l-.6.6C1.6 4.5 2 7 4.5 9.5S11.5 14.4 12.4 13.5l.6-.6a1 1 0 00.5-1.4z" fill="currentColor"/>
                 </svg>
               }
@@ -82,14 +93,64 @@ export function Footer({ encargosActivo = false }: { encargosActivo?: boolean })
             </div>
           </div>
 
-          {/* Columna derecha — mapa placeholder o info */}
-          <div
-            className="flex flex-col items-center justify-center p-8 rounded-2xl text-center"
-            style={{ border: '1px solid rgba(212,137,58,0.18)', background: 'rgba(212,137,58,0.03)' }}
+          {/* Columna derecha — mapa */}
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Av.+de+Madrid,+San+Agustin+de+Guadalix,+Madrid"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block relative rounded-2xl overflow-hidden group"
+            style={{ border: '1px solid rgba(212,137,58,0.18)', minHeight: 220 }}
+            aria-label="Ver ubicación en Google Maps"
           >
-             <p className="text-sm font-medium mb-1" style={{ color: '#FAF0DC' }}>Punto de recogida</p>
-             <p className="text-xs" style={{ color: 'rgba(250,240,220,0.4)' }}>Consúltanos para conocer tu punto de recogida más cercano</p>
-          </div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d-3.614!3d40.677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd43d197e8f5f68f%3A0x48b5f64482687d4b!2sAv.%20de%20Madrid%2C%20San%20Agust%C3%ADn%20de%20Guadalix%2C%20Madrid!5e0!3m2!1ses!2ses!4v1774076479941!5m2!1ses!2ses&maptype=roadmap"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              style={{
+                border: 'none',
+                filter: 'invert(1) hue-rotate(180deg) saturate(0.55) sepia(0.25) brightness(0.82)',
+              }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación Mr Tortilla"
+            />
+            {/* Pin dorado */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute" style={{
+                left: '50%', top: '50%',
+                transform: 'translateX(-50%) translateY(-50%)',
+                width: 22, height: 22,
+                background: 'rgba(26,14,5,0.9)',
+                borderRadius: '50%',
+                filter: 'blur(5px)',
+              }} />
+              <svg
+                width="26" height="34" viewBox="0 0 26 34" fill="none"
+                className="absolute"
+                style={{ left: '50%', top: '50%', transform: 'translateX(-50%) translateY(-100%)' }}
+              >
+                <path d="M13 0C5.82 0 0 5.82 0 13c0 8.667 13 21 13 21S26 21.667 26 13C26 5.82 20.18 0 13 0z" fill="#DFA855"/>
+                <circle cx="13" cy="13" r="5.5" fill="#1A0E05"/>
+                <circle cx="13" cy="13" r="3" fill="#EAB85A"/>
+              </svg>
+            </div>
+
+            {/* CTA bottom */}
+            <div
+              className="absolute inset-0 flex items-end justify-end p-3"
+              style={{ background: 'linear-gradient(to top, rgba(26,14,5,0.75) 0%, transparent 45%)' }}
+            >
+              <span
+                className="text-xs font-medium px-3 py-1.5 rounded-full transition-colors group-hover:bg-[rgba(212,137,58,0.25)]"
+                style={{
+                  background: 'rgba(212,137,58,0.12)',
+                  border: '1px solid rgba(212,137,58,0.32)',
+                  color: '#EAB85A',
+                }}
+              >
+                Ver en Google Maps ↗
+              </span>
+            </div>
+          </a>
         </div>
 
         {/* Bottom */}

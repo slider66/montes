@@ -13,8 +13,10 @@ export function JsonLd() {
     servesCuisine: ['Española', 'Desayunos', 'Tortilla de patata'],
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Madrid',
+      streetAddress: 'Av. de Madrid',
+      addressLocality: 'San Agustín de Guadalix',
       addressRegion: 'Madrid',
+      postalCode: '28750',
       addressCountry: 'ES',
     },
     image: 'https://mrtortilla.es/tortilla-hero.webp',
