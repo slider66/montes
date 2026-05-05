@@ -119,6 +119,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased">
         {children}
+        <FloatingWhatsApp />
+        <ScrollToTop />
         <Analytics />
         <SpeedInsights />
         <Script
